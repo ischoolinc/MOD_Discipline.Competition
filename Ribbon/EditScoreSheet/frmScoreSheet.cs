@@ -51,6 +51,8 @@ namespace Ischool.discipline_competition
 SELECT
     class.class_name 
     , check_item.name AS check_item_name
+    , check_item.max_score 
+    , check_item.min_score
     , student.name AS student_name
     , teacher.teacher_name
     , CASE
@@ -75,6 +77,10 @@ FROM
         ON teacher.id = admin.ref_teacher_id
 WHERE
     score_sheet.create_time::DATE = '{0}'::DATE
+ORDER BY
+    class.grade_year
+    , class.display_order
+    , check_item.name
             ", dateTimeInput1.Value.ToString("yyyy-MM-dd"));
 
             DataTable dt = _qh.Select(sql);

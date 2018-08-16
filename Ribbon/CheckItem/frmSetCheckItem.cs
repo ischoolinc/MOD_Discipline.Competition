@@ -80,7 +80,11 @@ namespace Ischool.discipline_competition
         private void btnSave_Click(object sender, EventArgs e)
         {
             // 資料驗證
-            Validate();
+            if (!Validate())
+            {
+                MsgBox.Show("資料驗證失敗，無法儲存!");
+                return;
+            }
 
             List<string> listData = new List<string>();
 
@@ -165,9 +169,9 @@ WHERE
         	$ischool.discipline_competition.check_item AS check_item
         	LEFT OUTER JOIN data_row
         		ON data_row.uid = check_item.uid
+                AND check_item.ref_period_id = data_row.ref_period_id
 		WHERE
 			data_row.uid IS NULL
-            AND check_item.ref_period_id = data_row.ref_period_id
     )
             ", dataRow);
 
@@ -198,49 +202,69 @@ WHERE
                     break;
                 }
                 rowIndex++;
-                // 評分項目
+
+                #region 驗證評分項目
                 if (string.IsNullOrEmpty("" + dgvrow.Cells[1].Value))
                 {
-                    MsgBox.Show("評分項目欄位必填不可空白!");
+                    dgvrow.Cells[1].ErrorText = "評分項目欄位不可空白!";
                     return false;
-                }
+                } 
+                #endregion
+
                 int n;
-                // 加減分最大值
+
+                #region 驗證加減分最大值欄位
                 if (string.IsNullOrEmpty("" + dgvrow.Cells[2].Value))
                 {
-                    MsgBox.Show("加減分最大值欄位必填不可空白!");
+                    dgvrow.Cells[2].Value = 0;
                 }
                 else
                 {
                     if (!int.TryParse("" + dgvrow.Cells[2].Value, out n))
                     {
-                        MsgBox.Show("加減分最大值欄位只允許填入數值!");
+                        dgvrow.Cells[2].ErrorText = "加減分最大值欄位只允許填入數值!";
                         return false;
                     }
+                    else
+                    {
+                        dgvrow.Cells[2].ErrorText = null;
+                    }
                 }
-                // 加減分最小值
+                #endregion
+
+                #region 驗證加減分最小值欄位
                 if (string.IsNullOrEmpty("" + dgvrow.Cells[3].Value))
                 {
-                    MsgBox.Show("加減分最小值欄位必填不可空白!");
-                    return false;
+                    dgvrow.Cells[3].Value = 0;
                 }
                 else
                 {
                     if (!int.TryParse("" + dgvrow.Cells[3].Value, out n))
                     {
-                        MsgBox.Show("加減分最小值欄位只允許填入數值!");
+                        dgvrow.Cells[3].ErrorText = "加減分最小值欄位只允許填入數值!";
                         return false;
                     }
+                    else
+                    {
+                        dgvrow.Cells[3].ErrorText = null;
+                    }
                 }
-                // 排列序號
+                #endregion
+
+                #region 驗證排列序號欄位
                 if (!string.IsNullOrEmpty("" + dgvrow.Cells[4].Value))
                 {
-                    if (!int.TryParse("" + dgvrow.Cells[4].Value,out n))
+                    if (!int.TryParse("" + dgvrow.Cells[4].Value, out n))
                     {
-                        MsgBox.Show("排列序號欄位指允許填入數值!");
+                        dgvrow.Cells[4].ErrorText = "排列序號欄位指允許填入數值!";
                         return false;
                     }
-                }
+                    else
+                    {
+                        dgvrow.Cells[3].ErrorText = null;
+                    }
+                } 
+                #endregion
             }
 
             return true;
@@ -252,6 +276,9 @@ WHERE
             this.Close();
         }
 
-        
+        private void dataGridViewX1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+
+        }
     }
 }

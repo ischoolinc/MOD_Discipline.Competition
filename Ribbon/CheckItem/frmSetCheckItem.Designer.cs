@@ -34,13 +34,13 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.cbxPeriod = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.dataGridViewX1 = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.btnLeave = new DevComponents.DotNetBar.ButtonX();
-            this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
             this.Column4 = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnLeave = new DevComponents.DotNetBar.ButtonX();
+            this.btnSave = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +52,7 @@
             // 
             this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(12, 12);
+            this.labelX1.Location = new System.Drawing.Point(12, 21);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(40, 23);
             this.labelX1.TabIndex = 0;
@@ -65,7 +65,7 @@
             this.cbxPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxPeriod.FormattingEnabled = true;
             this.cbxPeriod.ItemHeight = 19;
-            this.cbxPeriod.Location = new System.Drawing.Point(58, 12);
+            this.cbxPeriod.Location = new System.Drawing.Point(58, 21);
             this.cbxPeriod.Name = "cbxPeriod";
             this.cbxPeriod.Size = new System.Drawing.Size(121, 25);
             this.cbxPeriod.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -100,34 +100,7 @@
             this.dataGridViewX1.RowTemplate.Height = 24;
             this.dataGridViewX1.Size = new System.Drawing.Size(579, 349);
             this.dataGridViewX1.TabIndex = 2;
-            // 
-            // btnLeave
-            // 
-            this.btnLeave.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btnLeave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLeave.BackColor = System.Drawing.Color.Transparent;
-            this.btnLeave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnLeave.Location = new System.Drawing.Point(516, 418);
-            this.btnLeave.Name = "btnLeave";
-            this.btnLeave.Size = new System.Drawing.Size(75, 23);
-            this.btnLeave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.btnLeave.TabIndex = 3;
-            this.btnLeave.Text = "離開";
-            this.btnLeave.Click += new System.EventHandler(this.btnLeave_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.BackColor = System.Drawing.Color.Transparent;
-            this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnSave.Location = new System.Drawing.Point(435, 418);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "儲存";
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.dataGridViewX1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewX1_CellValidating);
             // 
             // Column1
             // 
@@ -181,6 +154,34 @@
             // 
             this.Column5.HeaderText = "排列序號";
             this.Column5.Name = "Column5";
+            // 
+            // btnLeave
+            // 
+            this.btnLeave.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnLeave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLeave.BackColor = System.Drawing.Color.Transparent;
+            this.btnLeave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnLeave.Location = new System.Drawing.Point(516, 418);
+            this.btnLeave.Name = "btnLeave";
+            this.btnLeave.Size = new System.Drawing.Size(75, 23);
+            this.btnLeave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnLeave.TabIndex = 3;
+            this.btnLeave.Text = "離開";
+            this.btnLeave.Click += new System.EventHandler(this.btnLeave_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.BackColor = System.Drawing.Color.Transparent;
+            this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnSave.Location = new System.Drawing.Point(435, 418);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "儲存";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // frmSetCheckItem
             // 

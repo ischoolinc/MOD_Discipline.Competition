@@ -52,7 +52,10 @@ WHERE
 
                 DataTable dt = qh.Select(sql);
 
-                this._userName = "" + dt.Rows[0]["teacher_name"];
+                if (dt.Rows.Count > 0)
+                {
+                    this._userName = "" + dt.Rows[0]["teacher_name"];
+                }
             }
             #endregion
 

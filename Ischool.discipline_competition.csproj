@@ -208,6 +208,7 @@
     <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
+    <None Include="Resources\loading.gif" />
     <None Include="Resources\blacklist_add_128.png" />
     <None Include="Resources\blacklist_write_128.png" />
     <None Include="Resources\calc_fav_64.png" />
@@ -365,6 +366,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <EmbeddedResource Include="DisciplineCompetitionPanel.resx">
+      <DependentUpon>DisciplineCompetitionPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

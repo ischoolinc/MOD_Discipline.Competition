@@ -31,8 +31,10 @@ namespace Ischool.discipline_competition
 
         private void frmAddScorer_Load(object sender, EventArgs e)
         {
-            QueryHelper qh = new QueryHelper();
+            pictureBox1.Visible = true;
 
+            QueryHelper qh = new QueryHelper();
+            
             #region Init GadeYear
             {
                 string sql = @"
@@ -49,9 +51,9 @@ ORDER BY
     grade_year
 ";
                 
-                DataTable dt = qh.Select(sql);
+                DataTable _dt = qh.Select(sql);
 
-                foreach (DataRow row in dt.Rows)
+                foreach (DataRow row in _dt.Rows)
                 {
                     cbxGradeYear.Items.Add("" + row["grade_year"]);
                 }
@@ -62,8 +64,12 @@ ORDER BY
             }
             #endregion
 
-            // Init DataGridView : 已被指定評分員的學生不會出現在該名單
-            #region Init DataGridView
+            BackgroundWorker bgw = new BackgroundWorker();
+            bgw.WorkerReportsProgress = true;
+
+            DataTable dt = null;
+
+            bgw.DoWork += delegate
             {
                 string sql = @"
 SELECT
@@ -71,6 +77,7 @@ SELECT
     , class.class_name
     , student.seat_no
     , student.name
+    , student.student_number
     , student.sa_login_name
     , student.id
 FROM
@@ -89,8 +96,11 @@ ORDER BY
 	, class.class_name
     , student.seat_no
 ";
-                DataTable dt = qh.Select(sql);
+                dt = qh.Select(sql);
+            };
 
+            bgw.RunWorkerCompleted += delegate
+            {
                 foreach (DataRow row in dt.Rows)
                 {
                     DataGridViewRow dgvrow = new DataGridViewRow();
@@ -102,21 +112,27 @@ ORDER BY
                     dgvrow.Cells[col++].Value = "" + row["class_name"];
                     dgvrow.Cells[col++].Value = "" + row["seat_no"];
                     dgvrow.Cells[col++].Value = "" + row["name"];
+                    dgvrow.Cells[col++].Value = "" + row["student_number"];
                     dgvrow.Cells[col++].Value = "" + row["sa_login_name"];
+
+                    dgvrow.ReadOnly = string.IsNullOrEmpty("" + row["sa_login_name"]);
+
                     dgvrow.Tag = "" + row["id"];
 
                     dataGridViewX1.Rows.Add(dgvrow);
                 }
-            }
-            #endregion
 
-            ReloadDataGridView(cbxGradeYear.SelectedItem.ToString());
+                ReloadDataGridView(cbxGradeYear.SelectedItem.ToString());
+            };
+
+            bgw.RunWorkerAsync();
 
             _initFinish = true;
         }
 
         public void ReloadDataGridView(string gradeYear)
         {
+            pictureBox1.Visible = true;
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
             {
                 if (dgvrow.Cells[1].Value.ToString() == gradeYear)
@@ -128,6 +144,7 @@ ORDER BY
                     dgvrow.Visible = false;
                 }
             }
+            pictureBox1.Visible = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -177,6 +194,7 @@ ORDER BY
             if (_initFinish)
             {
                 ReloadDataGridView(cbxGradeYear.SelectedItem.ToString());
+                ckbxAll.Checked = false;
             }
         }
 
@@ -185,7 +203,7 @@ ORDER BY
             if (e.RowIndex > -1 && e.ColumnIndex == 0)
             {
                 // 如果學生沒有登入帳號無法被指定為評分員
-                if (dataGridViewX1.Rows[e.RowIndex].Cells[5].Value.ToString() == "")
+                if (dataGridViewX1.Rows[e.RowIndex].Cells[6].Value.ToString() == "")
                 {
                     string studentName = dataGridViewX1.Rows[e.RowIndex].Cells[4].Value.ToString();
                     MsgBox.Show(string.Format("{0}學生沒有登入帳號，無法被指定為評分員!",studentName));
@@ -199,13 +217,33 @@ ORDER BY
             {
                 if (!string.IsNullOrEmpty(tbxSearch.Text.Trim()))
                 {
-                    dgvrow.Visible = dgvrow.Cells[4].Value.ToString().Contains(tbxSearch.Text) && dgvrow.Cells[1].Value.ToString() == cbxGradeYear.SelectedItem.ToString();
+                    dgvrow.Visible = dgvrow.Cells[4].Value.ToString().Contains(tbxSearch.Text) || dgvrow.Cells[5].Value.ToString().Contains(tbxSearch.Text) && dgvrow.Cells[1].Value.ToString() == cbxGradeYear.SelectedItem.ToString();
                 }
                 else
                 {
                     dgvrow.Visible = dgvrow.Cells[1].Value.ToString() == cbxGradeYear.SelectedItem.ToString();
                 }
             }
+        }
+
+        private void ckbxAll_CheckedChanged(object sender, EventArgs e)
+        {
+            int scorer = 0;
+            foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
+            {
+                if (cbxGradeYear.SelectedItem.ToString() == "" + dgvrow.Cells[1].Value) // 年級相同
+                {
+                    if (!string.IsNullOrEmpty("" + dgvrow.Cells[6].Value))
+                    {
+                        dgvrow.Cells[0].Value = ckbxAll.Checked;
+                        if (ckbxAll.Checked)
+                        {
+                            scorer++;
+                        }
+                    }
+                }
+            }
+            lbScorerCount.Text = string.Format("人數總計:{0}位",scorer);
         }
     }
 }

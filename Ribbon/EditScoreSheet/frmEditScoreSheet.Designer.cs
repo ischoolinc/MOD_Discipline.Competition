@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ckbxIsCancel = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.lbIdentity = new DevComponents.DotNetBar.LabelX();
             this.lbScorer = new DevComponents.DotNetBar.LabelX();
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.labelX5 = new DevComponents.DotNetBar.LabelX();
@@ -39,7 +40,6 @@
             this.labelX11 = new DevComponents.DotNetBar.LabelX();
             this.labelX12 = new DevComponents.DotNetBar.LabelX();
             this.labelX13 = new DevComponents.DotNetBar.LabelX();
-            this.tbxScore = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxSeatNo = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxCoordinate = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxRemark = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -52,6 +52,10 @@
             this.btnLeave = new DevComponents.DotNetBar.ButtonX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.tbxPic2URL = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.tbxPic1URL = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.tbxCheckItem = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxClassName = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
@@ -59,16 +63,19 @@
             this.groupPanel2 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.tbxCancelReason = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
-            this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.labelX4 = new DevComponents.DotNetBar.LabelX();
-            this.tbxPic1URL = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.tbxPic2URL = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.cbxScore = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.tbxCanceledName = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.tbxCanceledBy = new DevComponents.DotNetBar.Controls.TextBoxX();
             ((System.ComponentModel.ISupportInitialize)(this.pbx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbx2)).BeginInit();
             this.groupPanel1.SuspendLayout();
             this.panelEx2.SuspendLayout();
             this.panelEx1.SuspendLayout();
             this.groupPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // ckbxIsCancel
@@ -79,26 +86,27 @@
             // 
             this.ckbxIsCancel.BackgroundStyle.Class = "";
             this.ckbxIsCancel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.ckbxIsCancel.Location = new System.Drawing.Point(16, 13);
+            this.ckbxIsCancel.Location = new System.Drawing.Point(9, 15);
             this.ckbxIsCancel.Name = "ckbxIsCancel";
             this.ckbxIsCancel.Size = new System.Drawing.Size(123, 23);
             this.ckbxIsCancel.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ckbxIsCancel.TabIndex = 0;
             this.ckbxIsCancel.Text = "取消此評分紀錄";
+            this.ckbxIsCancel.CheckedChanged += new System.EventHandler(this.ckbxIsCancel_CheckedChanged);
             // 
-            // labelX1
+            // lbIdentity
             // 
-            this.labelX1.BackColor = System.Drawing.Color.Transparent;
+            this.lbIdentity.BackColor = System.Drawing.Color.Transparent;
             // 
             // 
             // 
             this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(16, 14);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(51, 23);
-            this.labelX1.TabIndex = 1;
-            this.labelX1.Text = "評分員";
+            this.lbIdentity.Location = new System.Drawing.Point(16, 14);
+            this.lbIdentity.Name = "lbIdentity";
+            this.lbIdentity.Size = new System.Drawing.Size(51, 23);
+            this.lbIdentity.TabIndex = 1;
+            this.lbIdentity.Text = "評分員";
             // 
             // lbScorer
             // 
@@ -122,7 +130,7 @@
             // 
             this.labelX3.BackgroundStyle.Class = "";
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Location = new System.Drawing.Point(187, 54);
+            this.labelX3.Location = new System.Drawing.Point(199, 54);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(61, 23);
             this.labelX3.TabIndex = 3;
@@ -136,7 +144,7 @@
             // 
             this.labelX5.BackgroundStyle.Class = "";
             this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX5.Location = new System.Drawing.Point(376, 14);
+            this.labelX5.Location = new System.Drawing.Point(366, 14);
             this.labelX5.Name = "labelX5";
             this.labelX5.Size = new System.Drawing.Size(86, 23);
             this.labelX5.TabIndex = 5;
@@ -150,9 +158,9 @@
             // 
             this.lbLastDate.BackgroundStyle.Class = "";
             this.lbLastDate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbLastDate.Location = new System.Drawing.Point(474, 14);
+            this.lbLastDate.Location = new System.Drawing.Point(458, 14);
             this.lbLastDate.Name = "lbLastDate";
-            this.lbLastDate.Size = new System.Drawing.Size(142, 23);
+            this.lbLastDate.Size = new System.Drawing.Size(158, 23);
             this.lbLastDate.TabIndex = 6;
             this.lbLastDate.Text = "labelX6";
             // 
@@ -166,9 +174,9 @@
             this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX7.Location = new System.Drawing.Point(16, 54);
             this.labelX7.Name = "labelX7";
-            this.labelX7.Size = new System.Drawing.Size(38, 23);
+            this.labelX7.Size = new System.Drawing.Size(59, 23);
             this.labelX7.TabIndex = 7;
-            this.labelX7.Text = "班級";
+            this.labelX7.Text = "違規班級";
             // 
             // labelX9
             // 
@@ -178,7 +186,7 @@
             // 
             this.labelX9.BackgroundStyle.Class = "";
             this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX9.Location = new System.Drawing.Point(479, 54);
+            this.labelX9.Location = new System.Drawing.Point(458, 54);
             this.labelX9.Name = "labelX9";
             this.labelX9.Size = new System.Drawing.Size(75, 23);
             this.labelX9.TabIndex = 9;
@@ -226,18 +234,6 @@
             this.labelX13.TabIndex = 13;
             this.labelX13.Text = "備註";
             // 
-            // tbxScore
-            // 
-            // 
-            // 
-            // 
-            this.tbxScore.Border.Class = "TextBoxBorder";
-            this.tbxScore.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxScore.Location = new System.Drawing.Point(560, 53);
-            this.tbxScore.Name = "tbxScore";
-            this.tbxScore.Size = new System.Drawing.Size(56, 25);
-            this.tbxScore.TabIndex = 15;
-            // 
             // tbxSeatNo
             // 
             // 
@@ -281,6 +277,7 @@
             this.pbx1.Location = new System.Drawing.Point(0, 0);
             this.pbx1.Name = "pbx1";
             this.pbx1.Size = new System.Drawing.Size(213, 149);
+            this.pbx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbx1.TabIndex = 19;
             this.pbx1.TabStop = false;
             // 
@@ -291,6 +288,7 @@
             this.pbx2.Location = new System.Drawing.Point(0, 0);
             this.pbx2.Name = "pbx2";
             this.pbx2.Size = new System.Drawing.Size(213, 149);
+            this.pbx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbx2.TabIndex = 20;
             this.pbx2.TabStop = false;
             // 
@@ -351,7 +349,7 @@
             this.btnLeave.AccessibleRole = System.Windows.Forms.AccessibleRole.CheckButton;
             this.btnLeave.BackColor = System.Drawing.Color.Transparent;
             this.btnLeave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnLeave.Location = new System.Drawing.Point(589, 653);
+            this.btnLeave.Location = new System.Drawing.Point(589, 673);
             this.btnLeave.Name = "btnLeave";
             this.btnLeave.Size = new System.Drawing.Size(75, 23);
             this.btnLeave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -364,7 +362,7 @@
             this.btnSave.AccessibleRole = System.Windows.Forms.AccessibleRole.CheckButton;
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
             this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnSave.Location = new System.Drawing.Point(508, 653);
+            this.btnSave.Location = new System.Drawing.Point(508, 673);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -377,6 +375,7 @@
             this.groupPanel1.BackColor = System.Drawing.Color.Transparent;
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel1.Controls.Add(this.cbxScore);
             this.groupPanel1.Controls.Add(this.tbxPic2URL);
             this.groupPanel1.Controls.Add(this.tbxPic1URL);
             this.groupPanel1.Controls.Add(this.labelX4);
@@ -386,7 +385,7 @@
             this.groupPanel1.Controls.Add(this.panelEx2);
             this.groupPanel1.Controls.Add(this.panelEx1);
             this.groupPanel1.Controls.Add(this.lbScorer);
-            this.groupPanel1.Controls.Add(this.labelX1);
+            this.groupPanel1.Controls.Add(this.lbIdentity);
             this.groupPanel1.Controls.Add(this.labelX3);
             this.groupPanel1.Controls.Add(this.tbxPic2Comment);
             this.groupPanel1.Controls.Add(this.labelX5);
@@ -402,7 +401,6 @@
             this.groupPanel1.Controls.Add(this.tbxCoordinate);
             this.groupPanel1.Controls.Add(this.labelX13);
             this.groupPanel1.Controls.Add(this.tbxSeatNo);
-            this.groupPanel1.Controls.Add(this.tbxScore);
             this.groupPanel1.Location = new System.Drawing.Point(12, 12);
             this.groupPanel1.Name = "groupPanel1";
             this.groupPanel1.Size = new System.Drawing.Size(652, 465);
@@ -439,6 +437,56 @@
             this.groupPanel1.TabIndex = 27;
             this.groupPanel1.Text = "評分紀錄";
             // 
+            // tbxPic2URL
+            // 
+            // 
+            // 
+            // 
+            this.tbxPic2URL.Border.Class = "TextBoxBorder";
+            this.tbxPic2URL.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxPic2URL.Location = new System.Drawing.Point(403, 348);
+            this.tbxPic2URL.Name = "tbxPic2URL";
+            this.tbxPic2URL.Size = new System.Drawing.Size(213, 25);
+            this.tbxPic2URL.TabIndex = 32;
+            // 
+            // tbxPic1URL
+            // 
+            // 
+            // 
+            // 
+            this.tbxPic1URL.Border.Class = "TextBoxBorder";
+            this.tbxPic1URL.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxPic1URL.Location = new System.Drawing.Point(81, 348);
+            this.tbxPic1URL.Name = "tbxPic1URL";
+            this.tbxPic1URL.Size = new System.Drawing.Size(213, 25);
+            this.tbxPic1URL.TabIndex = 31;
+            // 
+            // labelX4
+            // 
+            // 
+            // 
+            // 
+            this.labelX4.BackgroundStyle.Class = "";
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.Location = new System.Drawing.Point(322, 349);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(66, 23);
+            this.labelX4.TabIndex = 30;
+            this.labelX4.Text = "照片2URL";
+            // 
+            // labelX2
+            // 
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.Class = "";
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Location = new System.Drawing.Point(9, 349);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(66, 23);
+            this.labelX2.TabIndex = 29;
+            this.labelX2.Text = "照片1URL";
+            // 
             // tbxCheckItem
             // 
             // 
@@ -447,9 +495,10 @@
             this.tbxCheckItem.Border.Class = "TextBoxBorder";
             this.tbxCheckItem.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tbxCheckItem.Enabled = false;
-            this.tbxCheckItem.Location = new System.Drawing.Point(254, 53);
+            this.tbxCheckItem.Location = new System.Drawing.Point(266, 53);
             this.tbxCheckItem.Name = "tbxCheckItem";
-            this.tbxCheckItem.Size = new System.Drawing.Size(208, 25);
+            this.tbxCheckItem.ReadOnly = true;
+            this.tbxCheckItem.Size = new System.Drawing.Size(182, 25);
             this.tbxCheckItem.TabIndex = 28;
             // 
             // tbxClassName
@@ -462,7 +511,8 @@
             this.tbxClassName.Enabled = false;
             this.tbxClassName.Location = new System.Drawing.Point(81, 53);
             this.tbxClassName.Name = "tbxClassName";
-            this.tbxClassName.Size = new System.Drawing.Size(75, 25);
+            this.tbxClassName.ReadOnly = true;
+            this.tbxClassName.Size = new System.Drawing.Size(96, 25);
             this.tbxClassName.TabIndex = 27;
             // 
             // panelEx2
@@ -506,12 +556,16 @@
             this.groupPanel2.BackColor = System.Drawing.Color.Transparent;
             this.groupPanel2.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel2.Controls.Add(this.tbxCanceledBy);
+            this.groupPanel2.Controls.Add(this.labelX6);
+            this.groupPanel2.Controls.Add(this.tbxCanceledName);
+            this.groupPanel2.Controls.Add(this.labelX1);
             this.groupPanel2.Controls.Add(this.tbxCancelReason);
             this.groupPanel2.Controls.Add(this.labelX15);
             this.groupPanel2.Controls.Add(this.ckbxIsCancel);
             this.groupPanel2.Location = new System.Drawing.Point(12, 483);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(652, 164);
+            this.groupPanel2.Size = new System.Drawing.Size(652, 184);
             // 
             // 
             // 
@@ -552,11 +606,12 @@
             // 
             this.tbxCancelReason.Border.Class = "TextBoxBorder";
             this.tbxCancelReason.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxCancelReason.Location = new System.Drawing.Point(81, 52);
+            this.tbxCancelReason.Location = new System.Drawing.Point(81, 84);
             this.tbxCancelReason.Multiline = true;
             this.tbxCancelReason.Name = "tbxCancelReason";
             this.tbxCancelReason.Size = new System.Drawing.Size(535, 66);
             this.tbxCancelReason.TabIndex = 2;
+            this.tbxCancelReason.TextChanged += new System.EventHandler(this.tbxCancelReason_TextChanged);
             // 
             // labelX15
             // 
@@ -565,67 +620,86 @@
             // 
             this.labelX15.BackgroundStyle.Class = "";
             this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX15.Location = new System.Drawing.Point(16, 52);
+            this.labelX15.Location = new System.Drawing.Point(9, 84);
             this.labelX15.Name = "labelX15";
             this.labelX15.Size = new System.Drawing.Size(59, 23);
             this.labelX15.TabIndex = 1;
             this.labelX15.Text = "取消原因";
             // 
-            // labelX2
+            // cbxScore
+            // 
+            this.cbxScore.DisplayMember = "Text";
+            this.cbxScore.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbxScore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxScore.FormattingEnabled = true;
+            this.cbxScore.ItemHeight = 19;
+            this.cbxScore.Location = new System.Drawing.Point(539, 53);
+            this.cbxScore.Name = "cbxScore";
+            this.cbxScore.Size = new System.Drawing.Size(77, 25);
+            this.cbxScore.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cbxScore.TabIndex = 33;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // labelX1
             // 
             // 
             // 
             // 
-            this.labelX2.BackgroundStyle.Class = "";
-            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Location = new System.Drawing.Point(9, 349);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(66, 23);
-            this.labelX2.TabIndex = 29;
-            this.labelX2.Text = "照片1URL";
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Location = new System.Drawing.Point(9, 45);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(66, 23);
+            this.labelX1.TabIndex = 3;
+            this.labelX1.Text = "取消者";
             // 
-            // labelX4
-            // 
-            // 
-            // 
-            // 
-            this.labelX4.BackgroundStyle.Class = "";
-            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX4.Location = new System.Drawing.Point(322, 349);
-            this.labelX4.Name = "labelX4";
-            this.labelX4.Size = new System.Drawing.Size(66, 23);
-            this.labelX4.TabIndex = 30;
-            this.labelX4.Text = "照片2URL";
-            // 
-            // tbxPic1URL
+            // tbxCanceledName
             // 
             // 
             // 
             // 
-            this.tbxPic1URL.Border.Class = "TextBoxBorder";
-            this.tbxPic1URL.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxPic1URL.Location = new System.Drawing.Point(81, 348);
-            this.tbxPic1URL.Name = "tbxPic1URL";
-            this.tbxPic1URL.Size = new System.Drawing.Size(213, 25);
-            this.tbxPic1URL.TabIndex = 31;
+            this.tbxCanceledName.Border.Class = "TextBoxBorder";
+            this.tbxCanceledName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxCanceledName.Location = new System.Drawing.Point(81, 44);
+            this.tbxCanceledName.Name = "tbxCanceledName";
+            this.tbxCanceledName.ReadOnly = true;
+            this.tbxCanceledName.Size = new System.Drawing.Size(213, 25);
+            this.tbxCanceledName.TabIndex = 4;
             // 
-            // tbxPic2URL
+            // labelX6
             // 
             // 
             // 
             // 
-            this.tbxPic2URL.Border.Class = "TextBoxBorder";
-            this.tbxPic2URL.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxPic2URL.Location = new System.Drawing.Point(403, 348);
-            this.tbxPic2URL.Name = "tbxPic2URL";
-            this.tbxPic2URL.Size = new System.Drawing.Size(213, 25);
-            this.tbxPic2URL.TabIndex = 32;
+            this.labelX6.BackgroundStyle.Class = "";
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.Location = new System.Drawing.Point(311, 45);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(77, 23);
+            this.labelX6.TabIndex = 5;
+            this.labelX6.Text = "取消者帳號";
+            // 
+            // tbxCanceledBy
+            // 
+            // 
+            // 
+            // 
+            this.tbxCanceledBy.Border.Class = "TextBoxBorder";
+            this.tbxCanceledBy.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxCanceledBy.Location = new System.Drawing.Point(403, 44);
+            this.tbxCanceledBy.Name = "tbxCanceledBy";
+            this.tbxCanceledBy.ReadOnly = true;
+            this.tbxCanceledBy.Size = new System.Drawing.Size(213, 25);
+            this.tbxCanceledBy.TabIndex = 6;
             // 
             // frmEditScoreSheet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(676, 688);
+            this.ClientSize = new System.Drawing.Size(676, 708);
             this.Controls.Add(this.groupPanel2);
             this.Controls.Add(this.groupPanel1);
             this.Controls.Add(this.btnSave);
@@ -640,6 +714,7 @@
             this.panelEx2.ResumeLayout(false);
             this.panelEx1.ResumeLayout(false);
             this.groupPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -647,7 +722,7 @@
         #endregion
 
         private DevComponents.DotNetBar.Controls.CheckBoxX ckbxIsCancel;
-        private DevComponents.DotNetBar.LabelX labelX1;
+        private DevComponents.DotNetBar.LabelX lbIdentity;
         private DevComponents.DotNetBar.LabelX lbScorer;
         private DevComponents.DotNetBar.LabelX labelX3;
         private DevComponents.DotNetBar.LabelX labelX5;
@@ -657,7 +732,6 @@
         private DevComponents.DotNetBar.LabelX labelX11;
         private DevComponents.DotNetBar.LabelX labelX12;
         private DevComponents.DotNetBar.LabelX labelX13;
-        private DevComponents.DotNetBar.Controls.TextBoxX tbxScore;
         private DevComponents.DotNetBar.Controls.TextBoxX tbxSeatNo;
         private DevComponents.DotNetBar.Controls.TextBoxX tbxCoordinate;
         private DevComponents.DotNetBar.Controls.TextBoxX tbxRemark;
@@ -681,5 +755,11 @@
         private DevComponents.DotNetBar.Controls.TextBoxX tbxPic1URL;
         private DevComponents.DotNetBar.LabelX labelX4;
         private DevComponents.DotNetBar.LabelX labelX2;
+        private DevComponents.DotNetBar.Controls.ComboBoxEx cbxScore;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        private DevComponents.DotNetBar.LabelX labelX1;
+        private DevComponents.DotNetBar.Controls.TextBoxX tbxCanceledBy;
+        private DevComponents.DotNetBar.LabelX labelX6;
+        private DevComponents.DotNetBar.Controls.TextBoxX tbxCanceledName;
     }
 }
