@@ -50,6 +50,7 @@ FROM
                 dgvrow.Cells[col++].Value = "" + row["teacher_name"];
                 dgvrow.Cells[col++].Value = "" + row["account"];
                 dgvrow.Cells[col++].Value = "刪除";
+                dgvrow.Tag = "" + row["uid"];
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
@@ -63,6 +64,29 @@ FROM
                 ReloadDataGridView();
             };
             form.ShowDialog();
+        }
+
+        private void dataGridViewX1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1 && e.ColumnIndex == 2)
+            {
+                string teacherName = "" + dataGridViewX1.Rows[e.RowIndex].Cells[0].Value;
+                string adminID = "" + dataGridViewX1.Rows[e.RowIndex].Tag;
+                DialogResult result = MsgBox.Show(string.Format("確定刪除教師「{0}」管理員身分?", teacherName), "提醒", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        DAO.Admin.DeleteAdminData(DAO.Actor.Instance.GetRoleAdminID(), adminID);
+                        MsgBox.Show("資料刪除成功!");
+                        ReloadDataGridView();
+                    }
+                    catch(Exception ex)
+                    {
+                        MsgBox.Show(ex.Message);
+                    }
+                }
+            }
         }
 
         private void btnLeave_Click(object sender, EventArgs e)

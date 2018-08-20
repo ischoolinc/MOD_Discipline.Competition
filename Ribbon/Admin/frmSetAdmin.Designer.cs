@@ -30,11 +30,11 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewX1 = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.btnLeave = new DevComponents.DotNetBar.ButtonX();
-            this.btnAdd = new DevComponents.DotNetBar.ButtonX();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new DevComponents.DotNetBar.Controls.DataGridViewButtonXColumn();
+            this.btnLeave = new DevComponents.DotNetBar.ButtonX();
+            this.btnAdd = new DevComponents.DotNetBar.ButtonX();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,6 +64,25 @@
             this.dataGridViewX1.RowTemplate.Height = 24;
             this.dataGridViewX1.Size = new System.Drawing.Size(409, 371);
             this.dataGridViewX1.TabIndex = 0;
+            this.dataGridViewX1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX1_CellClick);
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "教師名稱";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.HeaderText = "登入帳號";
+            this.Column2.Name = "Column2";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "";
+            this.Column4.Name = "Column4";
+            this.Column4.Text = null;
+            this.Column4.Width = 80;
             // 
             // btnLeave
             // 
@@ -90,24 +109,6 @@
             this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "新增管理員";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "教師名稱";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "登入帳號";
-            this.Column2.Name = "Column2";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "";
-            this.Column4.Name = "Column4";
-            this.Column4.Text = null;
-            this.Column4.Width = 80;
             // 
             // frmSetAdmin
             // 

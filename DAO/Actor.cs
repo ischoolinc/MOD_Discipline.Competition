@@ -95,6 +95,29 @@ WHERE
             #endregion
         }
 
+        /// <summary>
+        /// 取得_LoginID
+        /// </summary>
+        /// <param name="Account"></param>
+        /// <returns></returns>
+        public string GetLoginIDByAccount(string Account)
+        {
+            string loginID;
+            string sql = string.Format("SELECT * FROM _login WHERE login_name = '{0}'", Account);
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(sql);
+
+            if (dt.Rows.Count > 0)
+            {
+                loginID = "" + dt.Rows[0]["id"];
+            }
+            else
+            {
+                loginID = "";
+            }
+
+            return loginID;
+        }
 
         /// <summary>
         /// 取得使用者帳號
@@ -118,6 +141,11 @@ WHERE
         public bool CheckAdmin()
         {
             return this._isAdmin;
+        }
+
+        public string GetRoleAdminID()
+        {
+            return this._roleAdminID;
         }
     }
 }

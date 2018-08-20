@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.cbxPeriod = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.dataGridViewX1 = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
-            this.Column4 = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnLeave = new DevComponents.DotNetBar.ButtonX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
+            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvAddOrCut = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column4 = new DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,78 +83,25 @@
             this.dataGridViewX1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
-            this.Column3,
+            this.dgvAddOrCut,
             this.Column4,
             this.Column5});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewX1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewX1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewX1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridViewX1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dataGridViewX1.Location = new System.Drawing.Point(12, 63);
+            this.dataGridViewX1.Location = new System.Drawing.Point(12, 64);
             this.dataGridViewX1.Name = "dataGridViewX1";
             this.dataGridViewX1.RowTemplate.Height = 24;
             this.dataGridViewX1.Size = new System.Drawing.Size(579, 349);
             this.dataGridViewX1.TabIndex = 2;
-            this.dataGridViewX1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewX1_CellValidating);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "評分";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 60;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "評分項目";
-            this.Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            // 
-            // 
-            // 
-            this.Column3.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.Column3.BackgroundStyle.Class = "DataGridViewNumericBorder";
-            this.Column3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Column3.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Column3.HeaderText = "加減分最大值";
-            this.Column3.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Center;
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column3.ShowUpDown = true;
-            this.Column3.Width = 110;
-            // 
-            // Column4
-            // 
-            // 
-            // 
-            // 
-            this.Column4.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
-            this.Column4.BackgroundStyle.Class = "DataGridViewNumericBorder";
-            this.Column4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Column4.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Column4.HeaderText = "加減分最小值";
-            this.Column4.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Center;
-            this.Column4.Name = "Column4";
-            this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.ShowUpDown = true;
-            this.Column4.Width = 110;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "排列序號";
-            this.Column5.Name = "Column5";
+            this.dataGridViewX1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX1_CellValueChanged);
             // 
             // btnLeave
             // 
@@ -183,6 +131,53 @@
             this.btnSave.Text = "儲存";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "評分";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 60;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.HeaderText = "評分項目";
+            this.Column2.Name = "Column2";
+            // 
+            // dgvAddOrCut
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvAddOrCut.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvAddOrCut.HeaderText = "加減分";
+            this.dgvAddOrCut.Name = "dgvAddOrCut";
+            this.dgvAddOrCut.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAddOrCut.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgvAddOrCut.Width = 110;
+            // 
+            // Column4
+            // 
+            // 
+            // 
+            // 
+            this.Column4.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window;
+            this.Column4.BackgroundStyle.Class = "DataGridViewNumericBorder";
+            this.Column4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Column4.BackgroundStyle.TextColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Column4.HeaderText = "最大值";
+            this.Column4.InputHorizontalAlignment = DevComponents.Editors.eHorizontalAlignment.Center;
+            this.Column4.MinValue = 0;
+            this.Column4.Name = "Column4";
+            this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.ShowUpDown = true;
+            // 
+            // Column5
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Column5.HeaderText = "排列序號";
+            this.Column5.Name = "Column5";
+            // 
             // frmSetCheckItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -211,7 +206,7 @@
         private DevComponents.DotNetBar.ButtonX btnSave;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn Column3;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dgvAddOrCut;
         private DevComponents.DotNetBar.Controls.DataGridViewIntegerInputColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }

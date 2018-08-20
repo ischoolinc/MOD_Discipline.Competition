@@ -51,6 +51,7 @@ namespace Ischool.discipline_competition
         {
             dataGridViewX1.Rows.Clear();
 
+            #region SQL
             string sql = string.Format(@"
 SELECT
     class.grade_year
@@ -68,10 +69,17 @@ FROM
 WHERE
     scorer.school_year = {0}
     AND scorer.semester = {1}
-            ", cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
+ORDER BY
+    class.grade_year
+    , class.display_order
+    , student.seat_no
+            ", cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString()); 
+            #endregion
 
             QueryHelper qh = new QueryHelper();
             DataTable dt = qh.Select(sql);
+
+            lbScorerCount.Text = string.Format("評分員人數: {0}位",dt.Rows.Count);
 
             foreach (DataRow row in dt.Rows)
             {

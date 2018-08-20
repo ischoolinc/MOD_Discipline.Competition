@@ -37,8 +37,17 @@ namespace Ischool.discipline_competition
             if (cbxPeriod.Items.Count > 0)
             {
                 cbxPeriod.SelectedIndex = 0;
-            } 
+            }
+            else
+            {
+                MsgBox.Show("請先設定評分時段資料!");
+                this.Close();
+            }
             #endregion
+
+            // Init dgvColumn
+            dgvAddOrCut.Items.Add("加分");
+            dgvAddOrCut.Items.Add("減分");
 
             ReloadDataGridView();
 
@@ -53,12 +62,36 @@ namespace Ischool.discipline_competition
             }
         }
 
+        /// <summary>
+        /// Sort: 排列序號
+        /// </summary>
+        private class sortDisplayOrder : IComparer<UDT.CheckItem>
+        {
+            int IComparer<UDT.CheckItem>.Compare(UDT.CheckItem x, UDT.CheckItem y)
+            {
+                if (x.DisplayOrder > y.DisplayOrder)
+                {
+                    return 1;
+                }
+                if (x.DisplayOrder < y.DisplayOrder)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+
         private void ReloadDataGridView()
         {
             dataGridViewX1.Rows.Clear();
 
             string periodUID = _dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID;
             List<UDT.CheckItem>listCheckItem =_access.Select<UDT.CheckItem>(string.Format("ref_period_id = {0}", periodUID));
+            listCheckItem.Sort(new sortDisplayOrder());
 
             foreach (UDT.CheckItem checkItem in listCheckItem)
             {
@@ -68,9 +101,19 @@ namespace Ischool.discipline_competition
                 int col = 0;
                 dgvrow.Cells[col++].Value = checkItem.Enabled;
                 dgvrow.Cells[col++].Value = checkItem.Name;
-                dgvrow.Cells[col++].Value = checkItem.MaxScore;
-                dgvrow.Cells[col++].Value = checkItem.MinScore;
-                dgvrow.Cells[col++].Value = checkItem.DisplayOrder;
+                if (checkItem.MinScore == 0)
+                {
+                    dgvrow.Cells[col++].Value = "加分";
+                    dgvrow.Cells[col++].Value = checkItem.MaxScore;
+                }
+                else
+                {
+                    dgvrow.Cells[col++].Value = "減分";
+                    dgvrow.Cells[col++].Value = (checkItem.MinScore * -1);
+                }
+                //dgvrow.Cells[col++].Value = checkItem.MaxScore;
+                //dgvrow.Cells[col++].Value = checkItem.MinScore;
+                dgvrow.Cells[col++].Value = "" + checkItem.DisplayOrder == "0" ? "" : "" + checkItem.DisplayOrder;
                 dgvrow.Tag = checkItem;
 
                 dataGridViewX1.Rows.Add(dgvrow);
@@ -89,6 +132,7 @@ namespace Ischool.discipline_competition
             List<string> listData = new List<string>();
 
             int rowIndex = 0;
+
             #region 資料整理
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
             {
@@ -102,8 +146,18 @@ namespace Ischool.discipline_competition
                 string checkItemName = "" + dgvrow.Cells[1].Value;
                 string enabled = ("" + dgvrow.Cells[0].Value) == "True" ? "true" : "false";
                 string displayOrder = ("" + dgvrow.Cells[4].Value) == "" ? "null" : ("" + dgvrow.Cells[4].Value);
-                string maxScore = "" + dgvrow.Cells[2].Value;
-                string minScore = "" + dgvrow.Cells[3].Value;
+                string maxScore = "";
+                string minScore = "";
+                if ("" + dgvrow.Cells[2].Value == "加分")
+                {
+                    maxScore = "" + dgvrow.Cells[3].Value;
+                    minScore = "0";
+                }
+                else
+                {
+                    maxScore = "0";
+                    minScore = "-" + dgvrow.Cells[3].Value;
+                }
 
                 string data = string.Format(@"
 SELECT
@@ -138,7 +192,7 @@ WITH data_row AS(
 	WHERE
 		data_row.uid = check_item.uid
 ) ,insert_data AS(
-	INSERT INTO $ischool.discipline_competition.check_item AS check_item(
+	INSERT INTO $ischool.discipline_competition.check_item (
 		ref_period_id
 		, name
 		, enabled
@@ -191,7 +245,94 @@ WHERE
 
         }
 
-        // 資料驗證
+        private bool dgvName_Validate(DataGridViewRow dgvrow)
+        {
+            if (string.IsNullOrEmpty("" + dgvrow.Cells[1].Value))
+            {
+                dgvrow.Cells[1].ErrorText = "評分項目欄位不可空白!";
+                return false;
+            }
+            else
+            {
+                dgvrow.Cells[1].ErrorText = null;
+                return true;
+            }
+        }
+
+        private bool dgvAddorCut_Validate(DataGridViewRow dgvrow)
+        {
+            if (string.IsNullOrEmpty("" + dgvrow.Cells[2].Value))
+            {
+                //dgvrow.Cells[2].ErrorText = "加減分欄位不可空白!";
+                dgvrow.ErrorText = "加減分欄位不可空白!";
+                return false;
+            }
+            else
+            {
+                if (dgvAddOrCut.Items.Contains("" + dgvrow.Cells[2].Value))
+                {
+                    dgvrow.Cells[2].ErrorText = null;
+                    return true;
+                }
+                else
+                {
+                    //dgvrow.Cells[2].ErrorText = "加減分欄位只允許填入加分或減分!";
+                    dgvrow.ErrorText = "加減分欄位只允許填入加分或減分!";
+                    return false;
+                }
+            }
+        }
+
+        private bool dgvMaxScore_Validate(DataGridViewRow dgvrow)
+        {
+            int n;
+            if (string.IsNullOrEmpty("" + dgvrow.Cells[3].Value) || "" + dgvrow.Cells[3].Value == "0")
+            {
+                //dgvrow.Cells[3].ErrorText = "最大值欄位不可空白、不為零!";
+                dgvrow.ErrorText = "最大值欄位不可空白、不為零!";
+                return false;
+            }
+            else
+            {
+                if (!int.TryParse("" + dgvrow.Cells[3].Value, out n))
+                {
+                    dgvrow.Cells[3].ErrorText = "最大值欄位只允許填入數值!";
+                    return false;
+                }
+                else
+                {
+                    dgvrow.Cells[3].ErrorText = null;
+                    return true;
+                }
+            }
+        }
+
+        private bool dgvDisplayOrder_Validate(DataGridViewRow dgvrow)
+        {
+            int n = 0;
+            if (!string.IsNullOrEmpty("" + dgvrow.Cells[4].Value))
+            {
+                if (!int.TryParse("" + dgvrow.Cells[4].Value, out n))
+                {
+                    dgvrow.Cells[4].ErrorText = "排列序號欄位指允許填入數值!";
+                    return false;
+                }
+                else
+                {
+                    dgvrow.Cells[4].ErrorText = null;
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 資料驗證
+        /// </summary>
+        /// <returns></returns>
         private bool Validate()
         {
             int rowIndex = 0;
@@ -203,82 +344,57 @@ WHERE
                 }
                 rowIndex++;
 
-                #region 驗證評分項目
-                if (string.IsNullOrEmpty("" + dgvrow.Cells[1].Value))
+                // 驗證評分項目
+                if (!dgvName_Validate(dgvrow))
                 {
-                    dgvrow.Cells[1].ErrorText = "評分項目欄位不可空白!";
                     return false;
-                } 
-                #endregion
-
-                int n;
-
-                #region 驗證加減分最大值欄位
-                if (string.IsNullOrEmpty("" + dgvrow.Cells[2].Value))
-                {
-                    dgvrow.Cells[2].Value = 0;
                 }
-                else
-                {
-                    if (!int.TryParse("" + dgvrow.Cells[2].Value, out n))
-                    {
-                        dgvrow.Cells[2].ErrorText = "加減分最大值欄位只允許填入數值!";
-                        return false;
-                    }
-                    else
-                    {
-                        dgvrow.Cells[2].ErrorText = null;
-                    }
-                }
-                #endregion
 
-                #region 驗證加減分最小值欄位
-                if (string.IsNullOrEmpty("" + dgvrow.Cells[3].Value))
+                // 驗證加減分欄位
+                if (!dgvAddorCut_Validate(dgvrow))
                 {
-                    dgvrow.Cells[3].Value = 0;
+                    return false;
                 }
-                else
-                {
-                    if (!int.TryParse("" + dgvrow.Cells[3].Value, out n))
-                    {
-                        dgvrow.Cells[3].ErrorText = "加減分最小值欄位只允許填入數值!";
-                        return false;
-                    }
-                    else
-                    {
-                        dgvrow.Cells[3].ErrorText = null;
-                    }
-                }
-                #endregion
 
-                #region 驗證排列序號欄位
-                if (!string.IsNullOrEmpty("" + dgvrow.Cells[4].Value))
+                // 驗證加減分最大值欄位
+                if (!dgvMaxScore_Validate(dgvrow))
                 {
-                    if (!int.TryParse("" + dgvrow.Cells[4].Value, out n))
-                    {
-                        dgvrow.Cells[4].ErrorText = "排列序號欄位指允許填入數值!";
-                        return false;
-                    }
-                    else
-                    {
-                        dgvrow.Cells[3].ErrorText = null;
-                    }
-                } 
-                #endregion
+                    return false;
+                }
+
+                // 驗證排列序號欄位
+                if (!dgvDisplayOrder_Validate(dgvrow))
+                {
+                    return false;
+                }
             }
 
             return true;
         }
-
 
         private void btnLeave_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void dataGridViewX1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        private void dataGridViewX1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex > -1 && e.ColumnIndex == 1)
+            {
+                dgvName_Validate(dataGridViewX1.Rows[e.RowIndex]);
+            }
+            if (e.RowIndex > -1 && e.ColumnIndex == 2)
+            {
+                dgvAddorCut_Validate(dataGridViewX1.Rows[e.RowIndex]);
+            }
+            if (e.RowIndex > -1 && e.ColumnIndex == 3)
+            {
+                dgvMaxScore_Validate(dataGridViewX1.Rows[e.RowIndex]);
+            }
+            if (e.RowIndex > -1 && e.ColumnIndex == 4)
+            {
+                dgvDisplayOrder_Validate(dataGridViewX1.Rows[e.RowIndex]);
+            }
         }
     }
 }

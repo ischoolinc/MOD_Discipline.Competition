@@ -76,6 +76,9 @@ WHERE
             string teacherName = "" + dataGridViewX1.Rows[rowIndex].Cells[0].Value;
             string account = "" + dataGridViewX1.Rows[rowIndex].Cells[3].Value;
             string teacherID = "" + dataGridViewX1.Rows[rowIndex].Tag;
+            string roleID = DAO.Actor.Instance.GetRoleAdminID();
+            string loginID = DAO.Actor.Instance.GetLoginIDByAccount(account);
+            string userAccount = DAO.Actor.Instance.GetUserAccount();
 
             if (rowIndex > -1 && colIndex == 5)
             {
@@ -88,20 +91,9 @@ WHERE
 
                 if (result == DialogResult.Yes)
                 {
-                    List<UDT.Admin> listInsertAdmin = new List<UDT.Admin>();
-                    UDT.Admin admin = new UDT.Admin();
-                    admin.Account = account;
-                    admin.RefTeacherID = int.Parse(teacherID);
-                    admin.CreateTime = DateTime.Now;
-                    admin.CreatedBy = DAO.Actor.Instance.GetUserAccount();
-
-                    listInsertAdmin.Add(admin);
-
-                    AccessHelper access = new AccessHelper();
-
                     try
                     {
-                        access.InsertValues(listInsertAdmin);
+                        DAO.Admin.InsertAdminData(account,teacherID,DateTime.Now.ToString("yyyy/MM/dd"),userAccount,roleID,loginID);
                         MsgBox.Show("資料儲存成功!");
                         this.Close();
                     }
@@ -109,6 +101,29 @@ WHERE
                     {
                         MsgBox.Show(ex.Message);
                     }
+
+
+                    //List<UDT.Admin> listInsertAdmin = new List<UDT.Admin>();
+                    //UDT.Admin admin = new UDT.Admin();
+                    //admin.Account = account;
+                    //admin.RefTeacherID = int.Parse(teacherID);
+                    //admin.CreateTime = DateTime.Now;
+                    //admin.CreatedBy = DAO.Actor.Instance.GetUserAccount();
+
+                    //listInsertAdmin.Add(admin);
+
+                    //AccessHelper access = new AccessHelper();
+
+                    //try
+                    //{
+                    //    //access.InsertValues(listInsertAdmin);
+                    //    MsgBox.Show("資料儲存成功!");
+                    //    this.Close();
+                    //}
+                    //catch(Exception ex)
+                    //{
+                    //    MsgBox.Show(ex.Message);
+                    //}
                     
                 }
             }
