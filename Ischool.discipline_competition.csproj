@@ -33,6 +33,9 @@
   <ItemGroup>
     <Compile Include="DAO\Actor.cs" />
     <Compile Include="DAO\Admin.cs" />
+    <Compile Include="DAO\CheckItem.cs" />
+    <Compile Include="DAO\SemesterRank.cs" />
+    <Compile Include="DAO\WeeklyRank.cs" />
     <Compile Include="DisciplineCompetitionPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -44,10 +47,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon\AddScoreSheet\frmAddScoreSheet.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmAddScoreSheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ribbon\AddScoreSheet\frmAddScoreSheet.Designer.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmAddScoreSheet.Designer.cs">
       <DependentUpon>frmAddScoreSheet.cs</DependentUpon>
     </Compile>
     <Compile Include="Ribbon\Admin\frmAddAdmin.cs">
@@ -68,16 +71,16 @@
     <Compile Include="Ribbon\CheckItem\frmSetCheckItem.Designer.cs">
       <DependentUpon>frmSetCheckItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon\EditScoreSheet\frmEditScoreSheet.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmEditScoreSheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ribbon\EditScoreSheet\frmEditScoreSheet.Designer.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmEditScoreSheet.Designer.cs">
       <DependentUpon>frmEditScoreSheet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon\EditScoreSheet\frmScoreSheet.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmScoreSheet.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ribbon\EditScoreSheet\frmScoreSheet.Designer.cs">
+    <Compile Include="Ribbon\ScoreSheet\frmScoreSheet.Designer.cs">
       <DependentUpon>frmScoreSheet.cs</DependentUpon>
     </Compile>
     <Compile Include="Ribbon\ScorePriod\frmSetScorePeriod.cs">
@@ -209,6 +212,9 @@
     <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
+    <None Include="Resources\foreign_language_config_64.png" />
+    <None Include="Resources\presentation_a_config_64.png" />
+    <None Include="Resources\blacklist_zoom_128.png" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\blacklist_add_128.png" />
     <None Include="Resources\blacklist_write_128.png" />
@@ -375,7 +381,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ribbon\AddScoreSheet\frmAddScoreSheet.resx">
+    <EmbeddedResource Include="Ribbon\ScoreSheet\frmAddScoreSheet.resx">
       <DependentUpon>frmAddScoreSheet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ribbon\Admin\frmAddAdmin.resx">
@@ -387,10 +393,10 @@
     <EmbeddedResource Include="Ribbon\CheckItem\frmSetCheckItem.resx">
       <DependentUpon>frmSetCheckItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ribbon\EditScoreSheet\frmEditScoreSheet.resx">
+    <EmbeddedResource Include="Ribbon\ScoreSheet\frmEditScoreSheet.resx">
       <DependentUpon>frmEditScoreSheet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ribbon\EditScoreSheet\frmScoreSheet.resx">
+    <EmbeddedResource Include="Ribbon\ScoreSheet\frmScoreSheet.resx">
       <DependentUpon>frmScoreSheet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ribbon\ScorePriod\frmSetScorePeriod.resx">

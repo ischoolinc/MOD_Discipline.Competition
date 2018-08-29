@@ -52,6 +52,7 @@
             this.btnLeave = new DevComponents.DotNetBar.ButtonX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.cbxScore = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.tbxPic2URL = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxPic1URL = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX4 = new DevComponents.DotNetBar.LabelX();
@@ -61,14 +62,15 @@
             this.panelEx2 = new DevComponents.DotNetBar.PanelEx();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
             this.groupPanel2 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.tbxCanceledBy = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.tbxCanceledName = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.tbxCancelReason = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
-            this.cbxScore = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
-            this.tbxCanceledName = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.tbxCanceledBy = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX8 = new DevComponents.DotNetBar.LabelX();
+            this.lbTime = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.pbx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbx2)).BeginInit();
             this.groupPanel1.SuspendLayout();
@@ -100,8 +102,8 @@
             // 
             // 
             // 
-            this.labelX1.BackgroundStyle.Class = "";
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbIdentity.BackgroundStyle.Class = "";
+            this.lbIdentity.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbIdentity.Location = new System.Drawing.Point(16, 14);
             this.lbIdentity.Name = "lbIdentity";
             this.lbIdentity.Size = new System.Drawing.Size(51, 23);
@@ -144,11 +146,11 @@
             // 
             this.labelX5.BackgroundStyle.Class = "";
             this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX5.Location = new System.Drawing.Point(366, 14);
+            this.labelX5.Location = new System.Drawing.Point(335, 14);
             this.labelX5.Name = "labelX5";
-            this.labelX5.Size = new System.Drawing.Size(86, 23);
+            this.labelX5.Size = new System.Drawing.Size(62, 23);
             this.labelX5.TabIndex = 5;
-            this.labelX5.Text = "最後修改日期";
+            this.labelX5.Text = "修改日期";
             // 
             // lbLastDate
             // 
@@ -158,9 +160,9 @@
             // 
             this.lbLastDate.BackgroundStyle.Class = "";
             this.lbLastDate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbLastDate.Location = new System.Drawing.Point(458, 14);
+            this.lbLastDate.Location = new System.Drawing.Point(403, 14);
             this.lbLastDate.Name = "lbLastDate";
-            this.lbLastDate.Size = new System.Drawing.Size(158, 23);
+            this.lbLastDate.Size = new System.Drawing.Size(96, 23);
             this.lbLastDate.TabIndex = 6;
             this.lbLastDate.Text = "labelX6";
             // 
@@ -347,6 +349,7 @@
             // btnLeave
             // 
             this.btnLeave.AccessibleRole = System.Windows.Forms.AccessibleRole.CheckButton;
+            this.btnLeave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLeave.BackColor = System.Drawing.Color.Transparent;
             this.btnLeave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btnLeave.Location = new System.Drawing.Point(589, 673);
@@ -360,6 +363,7 @@
             // btnSave
             // 
             this.btnSave.AccessibleRole = System.Windows.Forms.AccessibleRole.CheckButton;
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
             this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btnSave.Location = new System.Drawing.Point(508, 673);
@@ -375,6 +379,8 @@
             this.groupPanel1.BackColor = System.Drawing.Color.Transparent;
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel1.Controls.Add(this.lbTime);
+            this.groupPanel1.Controls.Add(this.labelX8);
             this.groupPanel1.Controls.Add(this.cbxScore);
             this.groupPanel1.Controls.Add(this.tbxPic2URL);
             this.groupPanel1.Controls.Add(this.tbxPic1URL);
@@ -436,6 +442,19 @@
             this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel1.TabIndex = 27;
             this.groupPanel1.Text = "評分紀錄";
+            // 
+            // cbxScore
+            // 
+            this.cbxScore.DisplayMember = "Text";
+            this.cbxScore.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbxScore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxScore.FormattingEnabled = true;
+            this.cbxScore.ItemHeight = 19;
+            this.cbxScore.Location = new System.Drawing.Point(539, 53);
+            this.cbxScore.Name = "cbxScore";
+            this.cbxScore.Size = new System.Drawing.Size(77, 25);
+            this.cbxScore.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cbxScore.TabIndex = 33;
             // 
             // tbxPic2URL
             // 
@@ -599,6 +618,58 @@
             this.groupPanel2.TabIndex = 28;
             this.groupPanel2.Text = "取消評分紀錄";
             // 
+            // tbxCanceledBy
+            // 
+            // 
+            // 
+            // 
+            this.tbxCanceledBy.Border.Class = "TextBoxBorder";
+            this.tbxCanceledBy.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxCanceledBy.Location = new System.Drawing.Point(403, 44);
+            this.tbxCanceledBy.Name = "tbxCanceledBy";
+            this.tbxCanceledBy.ReadOnly = true;
+            this.tbxCanceledBy.Size = new System.Drawing.Size(213, 25);
+            this.tbxCanceledBy.TabIndex = 6;
+            // 
+            // labelX6
+            // 
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.Class = "";
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.Location = new System.Drawing.Point(311, 45);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(77, 23);
+            this.labelX6.TabIndex = 5;
+            this.labelX6.Text = "取消者帳號";
+            // 
+            // tbxCanceledName
+            // 
+            // 
+            // 
+            // 
+            this.tbxCanceledName.Border.Class = "TextBoxBorder";
+            this.tbxCanceledName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbxCanceledName.Location = new System.Drawing.Point(81, 44);
+            this.tbxCanceledName.Name = "tbxCanceledName";
+            this.tbxCanceledName.ReadOnly = true;
+            this.tbxCanceledName.Size = new System.Drawing.Size(213, 25);
+            this.tbxCanceledName.TabIndex = 4;
+            // 
+            // labelX1
+            // 
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Location = new System.Drawing.Point(9, 45);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(66, 23);
+            this.labelX1.TabIndex = 3;
+            this.labelX1.Text = "取消者";
+            // 
             // tbxCancelReason
             // 
             // 
@@ -626,74 +697,35 @@
             this.labelX15.TabIndex = 1;
             this.labelX15.Text = "取消原因";
             // 
-            // cbxScore
-            // 
-            this.cbxScore.DisplayMember = "Text";
-            this.cbxScore.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbxScore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxScore.FormattingEnabled = true;
-            this.cbxScore.ItemHeight = 19;
-            this.cbxScore.Location = new System.Drawing.Point(539, 53);
-            this.cbxScore.Name = "cbxScore";
-            this.cbxScore.Size = new System.Drawing.Size(77, 25);
-            this.cbxScore.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cbxScore.TabIndex = 33;
-            // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // labelX1
+            // labelX8
             // 
             // 
             // 
             // 
-            this.labelX1.BackgroundStyle.Class = "";
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(9, 45);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(66, 23);
-            this.labelX1.TabIndex = 3;
-            this.labelX1.Text = "取消者";
+            this.labelX8.BackgroundStyle.Class = "";
+            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX8.Location = new System.Drawing.Point(505, 14);
+            this.labelX8.Name = "labelX8";
+            this.labelX8.Size = new System.Drawing.Size(35, 23);
+            this.labelX8.TabIndex = 34;
+            this.labelX8.Text = "時間";
             // 
-            // tbxCanceledName
-            // 
-            // 
-            // 
-            // 
-            this.tbxCanceledName.Border.Class = "TextBoxBorder";
-            this.tbxCanceledName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxCanceledName.Location = new System.Drawing.Point(81, 44);
-            this.tbxCanceledName.Name = "tbxCanceledName";
-            this.tbxCanceledName.ReadOnly = true;
-            this.tbxCanceledName.Size = new System.Drawing.Size(213, 25);
-            this.tbxCanceledName.TabIndex = 4;
-            // 
-            // labelX6
+            // lbTime
             // 
             // 
             // 
             // 
-            this.labelX6.BackgroundStyle.Class = "";
-            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX6.Location = new System.Drawing.Point(311, 45);
-            this.labelX6.Name = "labelX6";
-            this.labelX6.Size = new System.Drawing.Size(77, 23);
-            this.labelX6.TabIndex = 5;
-            this.labelX6.Text = "取消者帳號";
-            // 
-            // tbxCanceledBy
-            // 
-            // 
-            // 
-            // 
-            this.tbxCanceledBy.Border.Class = "TextBoxBorder";
-            this.tbxCanceledBy.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbxCanceledBy.Location = new System.Drawing.Point(403, 44);
-            this.tbxCanceledBy.Name = "tbxCanceledBy";
-            this.tbxCanceledBy.ReadOnly = true;
-            this.tbxCanceledBy.Size = new System.Drawing.Size(213, 25);
-            this.tbxCanceledBy.TabIndex = 6;
+            this.lbTime.BackgroundStyle.Class = "";
+            this.lbTime.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbTime.Location = new System.Drawing.Point(546, 14);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(75, 23);
+            this.lbTime.TabIndex = 35;
+            this.lbTime.Text = "lbTime";
             // 
             // frmEditScoreSheet
             // 
@@ -705,6 +737,8 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnLeave);
             this.DoubleBuffered = true;
+            this.MaximumSize = new System.Drawing.Size(692, 747);
+            this.MinimumSize = new System.Drawing.Size(692, 726);
             this.Name = "frmEditScoreSheet";
             this.Text = "修改評分紀錄";
             this.Load += new System.EventHandler(this.frmEditScoreSheet_Load);
@@ -761,5 +795,7 @@
         private DevComponents.DotNetBar.Controls.TextBoxX tbxCanceledBy;
         private DevComponents.DotNetBar.LabelX labelX6;
         private DevComponents.DotNetBar.Controls.TextBoxX tbxCanceledName;
+        private DevComponents.DotNetBar.LabelX lbTime;
+        private DevComponents.DotNetBar.LabelX labelX8;
     }
 }

@@ -68,7 +68,7 @@
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "教師名稱";
+            this.Column1.HeaderText = "教師姓名";
             this.Column1.Name = "Column1";
             // 
             // Column2
@@ -120,7 +120,7 @@
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
             this.Name = "frmSetAdmin";
-            this.Text = "管理管理員";
+            this.Text = "設定管理員";
             this.Load += new System.EventHandler(this.frmSetAdmin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
             this.ResumeLayout(false);

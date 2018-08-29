@@ -80,7 +80,7 @@ WHERE
 ORDER BY
     class.grade_year
     , class.display_order
-    , check_item.name
+    , check_item.display_order
             ", dateTimeInput1.Value.ToString("yyyy-MM-dd"));
 
             DataTable dt = _qh.Select(sql);

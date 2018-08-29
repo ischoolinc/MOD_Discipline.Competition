@@ -83,9 +83,29 @@ namespace Ischool.discipline_competition.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap blacklist_zoom_128 {
+            get {
+                object obj = ResourceManager.GetObject("blacklist_zoom_128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap calc_fav_64 {
             get {
                 object obj = ResourceManager.GetObject("calc_fav_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap foreign_language_config_64 {
+            get {
+                object obj = ResourceManager.GetObject("foreign_language_config_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +126,16 @@ namespace Ischool.discipline_competition.Properties {
         internal static System.Drawing.Bitmap network_lock_64 {
             get {
                 object obj = ResourceManager.GetObject("network_lock_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap presentation_a_config_64 {
+            get {
+                object obj = ResourceManager.GetObject("presentation_a_config_64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

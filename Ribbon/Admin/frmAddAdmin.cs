@@ -128,5 +128,26 @@ WHERE
                 }
             }
         }
+
+        private void tbxSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (tbxSearch.Text == "")
+            {
+                foreach (DataGridViewRow row in dataGridViewX1.Rows)
+                {
+                    row.Visible = true;
+                }
+            }
+            else
+            {
+                foreach (DataGridViewRow row in dataGridViewX1.Rows)
+                {
+                    if (row.Cells[0].Value != null)
+                    {
+                        row.Visible = (row.Cells[0].Value.ToString().IndexOf(tbxSearch.Text) > -1);
+                    }
+                }
+            }
+        }
     }
 }

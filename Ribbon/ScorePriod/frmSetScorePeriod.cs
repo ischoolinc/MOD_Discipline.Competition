@@ -66,7 +66,7 @@ SELECT
     , {1}::BOOLEAN AS enabled
     , '{2}'::TEXT AS created_by
     , {3}::INTEGER AS uid
-                ",dgvrow.Cells[1].Value,dgvrow.Cells[0].Value, _userAccount,dgvrow.Tag == null ? "null" : dgvrow.Tag.ToString());
+                ",dgvrow.Cells[1].Value,"" + dgvrow.Cells[0].Value == "True" ? "true" : "false", _userAccount,dgvrow.Tag == null ? "null" : dgvrow.Tag.ToString());
 
                 listData.Add(data);
 

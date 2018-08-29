@@ -43,7 +43,10 @@ namespace Ischool.discipline_competition
                 lbScorer.Text = "" + this._row["student_name"];
             }
             tbxCheckItem.Text = "" + this._row["check_item_name"];
-            lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("yyyy/MM/dd HH:mm");
+            lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("yyyy/MM/dd");
+            lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("HH:mm");
+            //lbLastDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
+            //lbTime.Text = DateTime.Now.ToString("HH:mm");
             tbxClassName.Text = "" + this._row["class_name"];
             //tbxScore.Text = "" + _row["score"];
             int minScore = int.Parse("" + this._row["min_score"]);
@@ -93,6 +96,7 @@ SELECT
     , '{10}'::TEXT AS canceled_name
     , '{11}'::TEXT AS cnaceled_by
     , '{12}'::TEXT AS cancel_reason
+    , {13}::BIGINT AS score
                 ", _scoreSheetUID
                         , tbxSeatNo.Text.Trim()
                         , tbxCoordinate.Text.Trim()
@@ -106,6 +110,7 @@ SELECT
                         , this._userName
                         , this._userAccount
                         , tbxCancelReason.Text
+                        , cbxScore.SelectedItem.ToString() 
                         );
                 #endregion
 
@@ -127,6 +132,7 @@ UPDATE $ischool.discipline_competition.score_sheet SET
     , canceled_name = data_row.canceled_name
     , canceled_by = data_row.cnaceled_by
     , cancel_reason = data_row.cancel_reason
+    , score = data_row.score
 FROM
     data_row
 WHERE

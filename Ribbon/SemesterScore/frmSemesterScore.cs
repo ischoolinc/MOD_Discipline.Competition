@@ -20,6 +20,16 @@ namespace Ischool.discipline_competition
     {
         private AccessHelper _access = new AccessHelper();
 
+        private class PrintHistory
+        {
+            public string SchoolYear { get; set; }
+            public string Semester { get; set; }
+            public string CreateDate { get; set; }
+            public string CreateBy { get; set; }
+        }
+
+        private Dictionary<string, PrintHistory> _dicPrintHistory = new Dictionary<string, PrintHistory>();
+
         public frmSemesterScore()
         {
             InitializeComponent();
@@ -30,61 +40,91 @@ namespace Ischool.discipline_competition
             int schoolYear = int.Parse(School.DefaultSchoolYear);
             int semester = int.Parse(School.DefaultSemester);
 
-            // Init SchoolYear
+            #region Init SchoolYear
             cbxSchoolYear.Items.Add(schoolYear - 1);
             cbxSchoolYear.Items.Add(schoolYear);
             cbxSchoolYear.Items.Add(schoolYear + 1);
-
             cbxSchoolYear.SelectedIndex = 1;
+            #endregion
 
-            // Init Semester
+            #region Init Semester
             cbxSemester.Items.Add(1);
             cbxSemester.Items.Add(2);
-
             cbxSemester.SelectedIndex = semester - 1;
+            #endregion
+
+            // 取的學期排名計算紀錄
+            getPrintHistory();
+        }
+
+        private void getPrintHistory()
+        {
+            string sql = @"
+SELECT DISTINCT
+    school_year
+    , semester
+    , create_time
+    , created_by
+FROM
+    $ischool.discipline_competition.semester_stats
+";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(sql);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string key = string.Format("{0}_{1}","" + row["school_year"],"" + row["semester"]);
+                if (!this._dicPrintHistory.ContainsKey(key))
+                {
+                    this._dicPrintHistory.Add(key,new PrintHistory());
+                }
+                this._dicPrintHistory[key].SchoolYear = "" + row["school_year"];
+                this._dicPrintHistory[key].Semester = "" + row["semester"];
+                this._dicPrintHistory[key].CreateDate = DateTime.Parse("" + row["create_time"]).ToString("yyyy/MM/dd");
+                this._dicPrintHistory[key].CreateBy = "" + row["created_by"];
+            }
         }
 
         private void btnCalculateScore_Click(object sender, EventArgs e)
         {
+            string key = string.Format("{0}_{1}",cbxSchoolYear.SelectedItem.ToString(),cbxSemester.SelectedItem.ToString());
+            if (this._dicPrintHistory.ContainsKey(key))
+            {
+                PrintHistory ph = this._dicPrintHistory[key];
 
+                DialogResult dRresult = MsgBox.Show(string.Format("「{0}」學年度、「{1}」學期，學期排名作業已計算過! \n 計算日期{2} 計算者{3}  \n 確定重新計算?"
+                    , ph.SchoolYear,ph.Semester,ph.CreateDate,ph.CreateBy), "提醒",MessageBoxButtons.YesNo);
+
+                if (dRresult == DialogResult.Yes)
+                {
+                    execute();
+                }
+            }
+            else
+            {
+                execute();
+            }
+        }
+
+        private void execute()
+        {
             // 1.計算各班學期統計
-            SemesterStatsCalculator calOne = new SemesterStatsCalculator(cbxSchoolYear.SelectedItem.ToString(),cbxSemester.SelectedItem.ToString());
+            SemesterStatsCalculator calOne = new SemesterStatsCalculator(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
             calOne.Execute();
 
             // 2.根據年級計算學期排名
             SemesterRankCalculator calTwo = new SemesterRankCalculator(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
             calTwo.Execute();
+
             // 3. 找出當學期排名
-            DataTable dt = getSemesterRank();
+            DataTable dt = DAO.SemesterRank.GetSemesterRank(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
+
             DialogResult result = MsgBox.Show("學期排名已計算完成，確定產出排名報表?", "提醒", MessageBoxButtons.YesNo);
 
             if (result == DialogResult.Yes)
             {
                 print(dt);
             }
-        }
-
-        private DataTable getSemesterRank()
-        {
-            string sql = string.Format(@"
-SELECT
-    class.class_name
-    , semester_rank.*
-FROM
-    $ischool.discipline_competition.semester_rank AS semester_rank
-    LEFT OUTER JOIN class
-        ON class.id = semester_rank.ref_class_id
-WHERE
-    school_year = {0}
-    AND semester = {1}
-ORDER BY
-    semester_rank.rank
-            ",cbxSchoolYear.SelectedItem.ToString(),cbxSemester.SelectedItem.ToString());
-
-            QueryHelper qh = new QueryHelper();
-            DataTable dt = qh.Select(sql);
-
-            return dt;
         }
 
         private void print(DataTable dt)
@@ -155,7 +195,14 @@ ORDER BY
             #endregion
         }
 
-        // 填工作表資料
+        /// <summary>
+        /// 填工作表資料
+        /// </summary>
+        /// <param name="wb"></param>
+        /// <param name="template"></param>
+        /// <param name="sheetNo"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="row"></param>
         private void fillSheetData(Workbook wb, Workbook template, int sheetNo, int rowIndex, DataRow row)
         {
             // 複製樣板格式

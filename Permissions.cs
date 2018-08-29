@@ -8,39 +8,39 @@ namespace Ischool.discipline_competition
 {
     class Permissions
     {
-        public static string 管理管理員 { get { return "B8AF8DCD-4B1F-401B-86DC-9CC6CC349EEC"; } }
-        public static bool 管理管理員權限
+        public static string 設定管理員 { get { return "B8AF8DCD-4B1F-401B-86DC-9CC6CC349EEC"; } }
+        public static bool 設定管理員權限
         {
             get
             {
-                return FISCA.Permission.UserAcl.Current[管理管理員].Executable;
+                return FISCA.Permission.UserAcl.Current[設定管理員].Executable;
             }
         }
 
-        public static string 管理評分員 { get { return "2D8CBAC3-25B8-4B29-BA99-D73E81F026D6"; } }
-        public static bool 管理評分員權限
+        public static string 設定評分員 { get { return "2D8CBAC3-25B8-4B29-BA99-D73E81F026D6"; } }
+        public static bool 設定評分員權限
         {
             get
             {
-                return FISCA.Permission.UserAcl.Current[管理評分員].Executable;
+                return FISCA.Permission.UserAcl.Current[設定評分員].Executable;
             }
         }
 
-        public static string 管理評分時段 { get { return "F7443940-A4F3-4E5D-AD43-3008ED4CF6A8"; } }
-        public static bool 管理評分時段權限
+        public static string 設定評分時段 { get { return "F7443940-A4F3-4E5D-AD43-3008ED4CF6A8"; } }
+        public static bool 設定評分時段權限
         {
             get
             {
-                return FISCA.Permission.UserAcl.Current[管理評分時段].Executable;
+                return FISCA.Permission.UserAcl.Current[設定評分時段].Executable;
             }
         }
 
-        public static string 管理評分項目 { get { return "023A57E4-C30D-4732-A494-30CEBC0EE468"; } }
-        public static bool 管理評分項目權限
+        public static string 設定評分項目 { get { return "023A57E4-C30D-4732-A494-30CEBC0EE468"; } }
+        public static bool 設定評分項目權限
         {
             get
             {
-                return FISCA.Permission.UserAcl.Current[管理評分項目].Executable;
+                return FISCA.Permission.UserAcl.Current[設定評分項目].Executable;
             }
         }
 

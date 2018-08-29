@@ -19,6 +19,7 @@ namespace Ischool.discipline_competition
         private bool _initFinish = false;
         private string _schoolYear;
         private string _semester;
+        private int scorerCount;
         private string _userAccount = DAO.Actor.Instance.GetUserAccount();
 
         public frmAddScorer(string schoolYear , string semester)
@@ -211,6 +212,32 @@ ORDER BY
             }
         }
 
+        // Magic 
+        private void dataGridViewX1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dataGridViewX1.IsCurrentCellDirty)
+            {
+                dataGridViewX1.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dataGridViewX1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1 && e.ColumnIndex == 0)
+            {
+                if (dataGridViewX1.Rows[e.RowIndex].Cells[0].Value.ToString() == "True")
+                {
+                    this.scorerCount++;
+                    lbScorerCount.Text = string.Format("人數總計:{0}位", this.scorerCount);
+                }
+                else
+                {
+                    this.scorerCount--;
+                    lbScorerCount.Text = string.Format("人數總計:{0}位", this.scorerCount);
+                }
+            }
+        }
+
         private void tbxSearch_TextChanged(object sender, EventArgs e)
         {
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
@@ -243,7 +270,8 @@ ORDER BY
                     }
                 }
             }
-            lbScorerCount.Text = string.Format("人數總計:{0}位",scorer);
+            this.scorerCount = scorer;
+            lbScorerCount.Text = string.Format("人數總計:{0}位", this.scorerCount);
         }
     }
 }

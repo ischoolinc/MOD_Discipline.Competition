@@ -30,10 +30,10 @@ namespace Ischool.discipline_competition.DAO
                 sql = string.Format(@"
 WITH data_row AS(
     SELECT
-        {0}::TEXT AS account
-        , {1}::TEXT AS ref_teacher_id
-        , {2}::TIMESTAMP AS create_time
-        , {3}::TEXT AS created_by
+        '{0}'::TEXT AS account
+        , {1}::BIGINT AS ref_teacher_id
+        , '{2}'::TIMESTAMP AS create_time
+        , '{3}'::TEXT AS created_by
 ) , insert_admin AS(
     INSERT INTO $ischool.discipline_competition.admin(
         account
@@ -53,25 +53,27 @@ WITH data_row AS(
         login_name
         , sys_admin
         , account_type
+        , password
     )
     SELECT
         account
         , '0'
         , 'greening'
+        , ''
     FROM
         data_row
     RETURNING *
-) , insert_lr_belong AS(
-    INSERT INTO _lr_belong(
-        _login_id
-        , _role_id
-    )
-    SELECT
-        insert_login.id
-        , {4}
-    FROM
-        insert_login
+) 
+INSERT INTO _lr_belong(
+    _login_id
+    , _role_id
 )
+SELECT
+    insert_login.id
+    , {4}
+FROM
+    insert_login
+
                 ", account, teacherID, createTime, createdBy, roleID); 
                 #endregion
             }

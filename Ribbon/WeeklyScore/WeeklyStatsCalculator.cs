@@ -25,7 +25,7 @@ namespace Ischool.discipline_competition
 
         private Dictionary<string, List<UDT.ScoreSheet>> dicRecordsByClassID;   //各班級該週的評分紀錄
 
-        private List<UDT.WeeklyStats> _listUpdateWeeklyStats; // 週統計
+        private List<UDT.WeeklyStats> _listInsertWeeklyStats; // 週統計
 
         private decimal _baseScore = 80; // 基準分
 
@@ -39,7 +39,7 @@ namespace Ischool.discipline_competition
             this.dicClassDataByID = new Dictionary<string, DataRow>();
 
             this.dicRecordsByClassID = new Dictionary<string, List<UDT.ScoreSheet>>();
-            this._listUpdateWeeklyStats = new List<UDT.WeeklyStats>();
+            this._listInsertWeeklyStats = new List<UDT.WeeklyStats>();
 
             //0. 取得全校班級(一、二、三年級)
             getClassData();
@@ -130,10 +130,10 @@ WHERE
                 weeklyStats.StartDate = this._startDate;
                 weeklyStats.EndDate = this._endDate;
 
-                _listUpdateWeeklyStats.Add(weeklyStats);
+                _listInsertWeeklyStats.Add(weeklyStats);
             }
             //  1.3 更新資料庫
-            access.InsertValues(_listUpdateWeeklyStats);
+            access.InsertValues(_listInsertWeeklyStats);
 
         }
     }

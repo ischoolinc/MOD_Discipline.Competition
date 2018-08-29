@@ -84,7 +84,6 @@ namespace Ischool.discipline_competition
             }
         }
 
-
         private void ReloadDataGridView()
         {
             dataGridViewX1.Rows.Clear();
@@ -130,8 +129,8 @@ namespace Ischool.discipline_competition
             }
 
             List<string> listData = new List<string>();
-
             int rowIndex = 0;
+            string periodID = _dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID;
 
             #region 資料整理
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
@@ -142,7 +141,6 @@ namespace Ischool.discipline_competition
                 }
                 rowIndex++;
                 string uid = dgvrow.Tag == null ? "null" : ((UDT.CheckItem)dgvrow.Tag).UID;
-                string periodID = _dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID;
                 string checkItemName = "" + dgvrow.Cells[1].Value;
                 string enabled = ("" + dgvrow.Cells[0].Value) == "True" ? "true" : "false";
                 string displayOrder = ("" + dgvrow.Cells[4].Value) == "" ? "null" : ("" + dgvrow.Cells[4].Value);
@@ -175,64 +173,10 @@ SELECT
             #endregion
 
             string dataRow = string.Join("UNION ALL",listData);
-
-            #region 資料儲存
-            string sql = string.Format(@"
-WITH data_row AS(
-    {0}
-) ,update_data AS(
-	UPDATE $ischool.discipline_competition.check_item AS check_item SET
-		name = data_row.name
-		, enabled = data_row.enabled
-		, display_order = data_row.display_order
-		, max_score = data_row.max_score
-		, min_score = data_row.min_score
-	FROM
-		data_row
-	WHERE
-		data_row.uid = check_item.uid
-) ,insert_data AS(
-	INSERT INTO $ischool.discipline_competition.check_item (
-		ref_period_id
-		, name
-		, enabled
-		, display_order
-		, max_score
-		, min_score	
-	)
-	SELECT
-		ref_period_id
-		, name
-		, enabled
-		, display_order
-		, max_score
-		, min_score	
-	FROM
-		data_row
-	WHERE
-		data_row.uid IS NULL
-)
-DELETE
-FROM
-    $ischool.discipline_competition.check_item
-WHERE
-    uid IN(
-        SELECT
-        	check_item.uid
-        FROM
-        	$ischool.discipline_competition.check_item AS check_item
-        	LEFT OUTER JOIN data_row
-        		ON data_row.uid = check_item.uid
-                AND check_item.ref_period_id = data_row.ref_period_id
-		WHERE
-			data_row.uid IS NULL
-    )
-            ", dataRow);
-
-            UpdateHelper up = new UpdateHelper();
+            
             try
             {
-                up.Execute(sql);
+                DAO.CheckItem.SaveCheckItem(dataRow, periodID);
                 MsgBox.Show("資料儲存成功!");
 
                 ReloadDataGridView();
@@ -241,8 +185,6 @@ WHERE
             {
                 MsgBox.Show(ex.Message);
             } 
-            #endregion
-
         }
 
         private bool dgvName_Validate(DataGridViewRow dgvrow)
