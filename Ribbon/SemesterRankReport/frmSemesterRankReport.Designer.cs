@@ -145,7 +145,7 @@
             this.Controls.Add(this.labelX1);
             this.DoubleBuffered = true;
             this.Name = "frmSemesterRankReport";
-            this.Text = "frmSemesterRankReport";
+            this.Text = "學期排名報表";
             this.Load += new System.EventHandler(this.frmSemesterRankReport_Load);
             this.ResumeLayout(false);
 

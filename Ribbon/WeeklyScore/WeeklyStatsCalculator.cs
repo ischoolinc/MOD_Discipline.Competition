@@ -20,7 +20,7 @@ namespace Ischool.discipline_competition
         private int _weekNo;
         private DateTime _startDate;
         private DateTime _endDate;
-        //private List<ClassRecord> listClass;
+        private List<string> _listExistCheckItem = new List<string>();
         private Dictionary<string,DataRow> dicClassDataByID;
 
         private Dictionary<string, List<UDT.ScoreSheet>> dicRecordsByClassID;   //各班級該週的評分紀錄
@@ -96,6 +96,13 @@ WHERE
                 }
                 dicRecordsByClassID[key].Add(sheet);
             }
+
+            // 取得所有評分項目編號
+            List<UDT.CheckItem> listCheckItem = access.Select<UDT.CheckItem>();
+            foreach (UDT.CheckItem data in listCheckItem)
+            {
+                this._listExistCheckItem.Add(data.UID);
+            }
         }
 
         private void calculateScore()
@@ -113,9 +120,12 @@ WHERE
                 if (dicRecordsByClassID.ContainsKey(classID))
                 {
                     //  1.2 計算總分
-                    foreach (UDT.ScoreSheet sheet in dicRecordsByClassID[classID])
+                    foreach (UDT.ScoreSheet sheet in dicRecordsByClassID[classID]) 
                     {
-                        score += sheet.Score;
+                        if (this._listExistCheckItem.Contains("" + sheet.RefCheckItemID))// 如果評分項目存在系統的話採計扣分
+                        {
+                            score += sheet.Score;
+                        }
                     }
                 }
                 UDT.WeeklyStats weeklyStats = new UDT.WeeklyStats();

@@ -102,6 +102,7 @@
             this.dataGridViewX1.Size = new System.Drawing.Size(579, 349);
             this.dataGridViewX1.TabIndex = 2;
             this.dataGridViewX1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX1_CellValueChanged);
+            this.dataGridViewX1.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.dataGridViewX1_UserDeletingRow);
             // 
             // Column1
             // 

@@ -62,7 +62,7 @@ namespace Ischool.discipline_competition
             dtStartTime.Value = DateTime.Now.AddDays(-4);
             dtEndTime.Value = DateTime.Now;
 
-            // 取得所有週排名資料
+            // 取得所有計算過週排名的週次資料
             getWeekNoData();
         }
 
@@ -114,25 +114,34 @@ FROM
 
                     if (dResult == DialogResult.Yes)
                     {
-                        // 1. 統計當週各班成績
-                        WeeklyStatsCalculator calOne = new WeeklyStatsCalculator(schoolYear, semester, weekNo, startDate, endDate);
-                        calOne.Execute();
-
-                        // 2. 計算各年級班排名
-                        WeeklyRankCalculator calTwo = new WeeklyRankCalculator(schoolYear, semester, weekNo, startDate, endDate);
-                        calTwo.Execute();
-
-                        // 3. 找出當週排名
-                        DataTable dt = DAO.WeeklyRank.GetWeekltRank(schoolYear, semester, weekNo);
-
-                        DialogResult result = MsgBox.Show("週排名已計算完成，確定產出排名報表?", "提醒", MessageBoxButtons.YesNo);
-
-                        if (result == DialogResult.Yes)
-                        {
-                            print(dt);
-                        }
+                        execute(schoolYear, semester, weekNo, startDate, endDate);
                     }
                 }
+                else
+                {
+                    execute(schoolYear, semester, weekNo, startDate, endDate);
+                }
+            }
+        }
+
+        private void execute(string schoolYear,string semester,int weekNo,DateTime startDate, DateTime endDate)
+        {
+            // 1. 統計當週各班成績
+            WeeklyStatsCalculator calOne = new WeeklyStatsCalculator(schoolYear, semester, weekNo, startDate, endDate);
+            calOne.Execute();
+
+            // 2. 計算各年級班排名
+            WeeklyRankCalculator calTwo = new WeeklyRankCalculator(schoolYear, semester, weekNo, startDate, endDate);
+            calTwo.Execute();
+
+            // 3. 找出當週排名
+            DataTable dt = DAO.WeeklyRank.GetWeekltRank(schoolYear, semester, weekNo);
+
+            DialogResult result = MsgBox.Show("週排名已計算完成，確定產出排名報表?", "提醒", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                print(dt);
             }
         }
 

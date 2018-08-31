@@ -63,7 +63,7 @@ ORDER BY
 
             #region Init Period
             {
-                List<UDT.Period> listPeriod = _access.Select<UDT.Period>();
+                List<UDT.Period> listPeriod = _access.Select<UDT.Period>("enabled = true");
 
                 foreach (UDT.Period period in listPeriod)
                 {
@@ -83,7 +83,7 @@ ORDER BY
             cbxCheckItem.Items.Clear();
             this._dicCheckItemBYName.Clear();
 
-            List<UDT.CheckItem> listCheckItem = this._access.Select<UDT.CheckItem>(string.Format("ref_period_id = {0}",this._dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID));
+            List<UDT.CheckItem> listCheckItem = this._access.Select<UDT.CheckItem>(string.Format("ref_period_id = {0} AND enabled = true",this._dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID));
 
             foreach (UDT.CheckItem checkItem in listCheckItem)
             {

@@ -33,30 +33,58 @@ namespace Ischool.discipline_competition
 
         private void frmEditScoreSheet_Load(object sender, EventArgs e)
         {
-            lbIdentity.Text = "" + this._row["身分"];
-            if (lbIdentity.Text == "管理員")
+            #region 身分
             {
-                lbScorer.Text = "" + this._row["teacher_name"];
+                lbIdentity.Text = "" + this._row["身分"];
+                if (lbIdentity.Text == "管理員")
+                {
+                    lbScorer.Text = "" + this._row["teacher_name"];
+                }
+                else
+                {
+                    lbScorer.Text = "" + this._row["student_name"];
+                }
             }
-            else
+            #endregion
+
+            #region 時間
             {
-                lbScorer.Text = "" + this._row["student_name"];
+                lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("yyyy/MM/dd");
+                lbTime.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("HH:mm");
             }
-            tbxCheckItem.Text = "" + this._row["check_item_name"];
-            lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("yyyy/MM/dd");
-            lbLastDate.Text = DateTime.Parse("" + this._row["scorer_last_update"]).ToString("HH:mm");
-            //lbLastDate.Text = DateTime.Now.ToString("yyyy/MM/dd");
-            //lbTime.Text = DateTime.Now.ToString("HH:mm");
+            #endregion
+
             tbxClassName.Text = "" + this._row["class_name"];
-            //tbxScore.Text = "" + _row["score"];
-            int minScore = int.Parse("" + this._row["min_score"]);
-            int maxScore = int.Parse("" + this._row["max_score"]);
-            int score = int.Parse("" + this._row["score"]);
-            for (int s = minScore; s <= maxScore; s++)
+
+            #region 評分項目
             {
-                cbxScore.Items.Add(s);
+                if (string.IsNullOrEmpty("" + this._row["check_item_name"]))
+                {
+                    errorProvider1.SetError(tbxCheckItem,"原評分項目已被刪除!");
+                    this.btnSave.Enabled = false;
+                }
+                else
+                {
+                    tbxCheckItem.Text = "" + this._row["check_item_name"];
+                    int minScore = ("" + this._row["min_score"]) == "" ? 0 : int.Parse("" + this._row["min_score"]);
+                    int maxScore = ("" + this._row["max_score"]) == "" ? 0 : int.Parse("" + this._row["max_score"]);
+                    int score = ("" + this._row["score"]) == "" ? 0 : int.Parse("" + this._row["score"]);
+                    for (int s = minScore; s <= maxScore; s++)
+                    {
+                        cbxScore.Items.Add(s);
+                    }
+                    if (cbxScore.Items.IndexOf(score) == -1)
+                    {
+                        errorProvider1.SetError(cbxScore, "評分紀錄的加減分不在設定範圍內，請重新設定!");
+                    }
+                    else
+                    {
+                        cbxScore.SelectedIndex = cbxScore.Items.IndexOf(score);
+                    }
+                }
             }
-            cbxScore.SelectedIndex = cbxScore.Items.IndexOf(score);
+            #endregion
+
             tbxSeatNo.Text = "" + this._row["seat_no"];
             tbxCoordinate.Text = "" + this._row["coordinate"];
             tbxRemark.Text = "" + this._row["remark"];
@@ -362,11 +390,6 @@ WHERE
             return true;
         }
 
-        private void btnLeave_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void ckbxIsCancel_CheckedChanged(object sender, EventArgs e)
         {
             if (ckbxIsCancel.Checked)
@@ -386,6 +409,11 @@ WHERE
         private void tbxCancelReason_TextChanged(object sender, EventArgs e)
         {
             tbxCancelReason_Validate();
+        }
+
+        private void btnLeave_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

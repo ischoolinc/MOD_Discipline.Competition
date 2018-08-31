@@ -45,8 +45,11 @@ namespace Ischool.discipline_competition
 
         private void ReloadDataGridView()
         {
+            this.SuspendLayout();
+
             dataGridViewX1.Rows.Clear();
 
+            #region SQL
             string sql = string.Format(@"
 SELECT
     class.class_name 
@@ -81,7 +84,8 @@ ORDER BY
     class.grade_year
     , class.display_order
     , check_item.display_order
-            ", dateTimeInput1.Value.ToString("yyyy-MM-dd"));
+            ", dateTimeInput1.Value.ToString("yyyy-MM-dd")); 
+            #endregion
 
             DataTable dt = _qh.Select(sql);
 
@@ -103,6 +107,7 @@ ORDER BY
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
+            this.ResumeLayout();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -118,11 +123,6 @@ ORDER BY
             }
         }
 
-        private void btnLeave_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             frmAddScoreSheet form = new frmAddScoreSheet(dateTimeInput1.Value);
@@ -131,6 +131,11 @@ ORDER BY
                 ReloadDataGridView();
             };
             form.ShowDialog();
+        }
+
+        private void btnLeave_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

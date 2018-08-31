@@ -16,6 +16,7 @@ namespace Ischool.discipline_competition
     public partial class frmSetScorePeriod : BaseForm
     {
         private string _userAccount = DAO.Actor.Instance.GetUserAccount();
+        private bool _initFinish = false;
 
         public frmSetScorePeriod()
         {
@@ -25,10 +26,13 @@ namespace Ischool.discipline_competition
         private void frmSetScorePeriod_Load(object sender, EventArgs e)
         {
             ReloadDataGridView();
+            _initFinish = true;
         }
 
         private void ReloadDataGridView()
         {
+            this.SuspendLayout();
+
             AccessHelper access = new AccessHelper();
             List<UDT.Period> listPeriod = access.Select<UDT.Period>();
 
@@ -46,27 +50,83 @@ namespace Ischool.discipline_competition
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
+
+            this.ResumeLayout();
+        }
+
+        private void dataGridViewX1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this._initFinish)
+            {
+                validatePeriodName(dataGridViewX1.Rows[e.RowIndex]);
+            }
+        }
+
+        private bool validatePeriodName(DataGridViewRow dgvrow)
+        {
+            if (string.IsNullOrEmpty(("" + dgvrow.Cells[1].Value).Trim()))
+            {
+                dgvrow.Cells[1].ErrorText = "欄位名稱不可空白!";
+                return false;
+            }
+            else
+            {
+                dgvrow.Cells[1].ErrorText = null;
+                return true;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            List<string> listData = new List<string>();
+            #region 資料驗證
+            {
+                int rowIndex = 0;
+                List<string> listPeriodName = new List<string>();
+                foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
+                {
+                    if (rowIndex == dataGridViewX1.Rows.Count - 1)
+                    {
+                        break;
+                    }
+                    rowIndex++;
+                    if (validatePeriodName(dgvrow)) 
+                    {
+                        if (!listPeriodName.Contains(dgvrow.Cells[1].Value.ToString()))
+                        {
+                            listPeriodName.Add(dgvrow.Cells[1].Value.ToString());
+                        }
+                        else
+                        {
+                            MsgBox.Show("資料驗證失敗，無法儲存!");
+                            dgvrow.Cells[1].ErrorText = "欄位名稱重複!";
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            #endregion
 
+            #region 資料整理
+
+            List<string> listData = new List<string>();
             int endRowIndex = 0;
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
             {
-                if (endRowIndex == dataGridViewX1.Rows.Count -1)
+                if (endRowIndex == dataGridViewX1.Rows.Count - 1)
                 {
                     break;
                 }
-
                 string data = string.Format(@"
 SELECT
     '{0}'::TEXT AS name
     , {1}::BOOLEAN AS enabled
     , '{2}'::TEXT AS created_by
     , {3}::INTEGER AS uid
-                ",dgvrow.Cells[1].Value,"" + dgvrow.Cells[0].Value == "True" ? "true" : "false", _userAccount,dgvrow.Tag == null ? "null" : dgvrow.Tag.ToString());
+                ", dgvrow.Cells[1].Value, "" + dgvrow.Cells[0].Value == "True" ? "true" : "false", _userAccount, dgvrow.Tag == null ? "null" : dgvrow.Tag.ToString());
 
                 listData.Add(data);
 
@@ -74,52 +134,11 @@ SELECT
             }
 
             string dataRow = string.Join("UNION ALL", listData);
+            #endregion
 
-            string sql = string.Format(@"
-WITH data_row AS(
-    {0}
-) , update_data AS(
-    UPDATE $ischool.discipline_competition.period AS period SET
-        name = data_row.name
-        , enabled =  data_row.enabled
-    FROM
-        data_row
-    WHERE 
-        data_row.uid = period.uid
-) , insert_data AS(
-    INSERT INTO $ischool.discipline_competition.period(
-        name
-        , enabled
-        , created_by
-    )
-    SELECT
-        name
-        , enabled
-        , created_by
-    FROM
-        data_row 
-    WHERE
-        data_row.uid IS NULL
-)
-    DELETE
-    FROM
-        $ischool.discipline_competition.period
-    WHERE
-        uid IN (
-            SELECT
-                period.uid
-            FROM
-                $ischool.discipline_competition.period AS period
-                LEFT OUTER JOIN data_row
-                    ON data_row.uid = period.uid
-            WHERE
-                data_row.uid IS NULL
-        )
-            ", dataRow);
-            UpdateHelper up = new UpdateHelper();
             try
             {
-                up.Execute(sql);
+                DAO.Period.SavePeriodData(dataRow);
                 MsgBox.Show("儲存成功!");
                 ReloadDataGridView();
             }

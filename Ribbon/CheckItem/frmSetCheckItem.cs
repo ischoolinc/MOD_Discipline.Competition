@@ -17,6 +17,7 @@ namespace Ischool.discipline_competition
     {
         private AccessHelper _access = new AccessHelper();
         private Dictionary<string, UDT.Period> _dicPeriodByName = new Dictionary<string, UDT.Period>();
+        private Dictionary<int, string> _dicItemNameByRowIndex = new Dictionary<int, string>();
         private bool _initFinish = false;
 
         public frmSetCheckItem()
@@ -86,17 +87,21 @@ namespace Ischool.discipline_competition
 
         private void ReloadDataGridView()
         {
+            this.SuspendLayout();
+            
             dataGridViewX1.Rows.Clear();
-
+            this._dicItemNameByRowIndex.Clear(); 
             string periodUID = _dicPeriodByName[cbxPeriod.SelectedItem.ToString()].UID;
             List<UDT.CheckItem>listCheckItem =_access.Select<UDT.CheckItem>(string.Format("ref_period_id = {0}", periodUID));
             listCheckItem.Sort(new sortDisplayOrder());
 
+            int row = 0;
             foreach (UDT.CheckItem checkItem in listCheckItem)
             {
+                this._dicItemNameByRowIndex.Add(row++, checkItem.Name);
+
                 DataGridViewRow dgvrow = new DataGridViewRow();
                 dgvrow.CreateCells(dataGridViewX1);
-
                 int col = 0;
                 dgvrow.Cells[col++].Value = checkItem.Enabled;
                 dgvrow.Cells[col++].Value = checkItem.Name;
@@ -117,6 +122,8 @@ namespace Ischool.discipline_competition
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
+
+            this.ResumeLayout();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -194,6 +201,11 @@ SELECT
                 dgvrow.Cells[1].ErrorText = "評分項目欄位不可空白!";
                 return false;
             }
+            if (this._dicItemNameByRowIndex.Values.Contains("" + dgvrow.Cells[1].Value))
+            {
+                dgvrow.Cells[1].ErrorText = "欄位名稱重複!";
+                return false;
+            }
             else
             {
                 dgvrow.Cells[1].ErrorText = null;
@@ -205,7 +217,6 @@ SELECT
         {
             if (string.IsNullOrEmpty("" + dgvrow.Cells[2].Value))
             {
-                //dgvrow.Cells[2].ErrorText = "加減分欄位不可空白!";
                 dgvrow.ErrorText = "加減分欄位不可空白!";
                 return false;
             }
@@ -213,12 +224,11 @@ SELECT
             {
                 if (dgvAddOrCut.Items.Contains("" + dgvrow.Cells[2].Value))
                 {
-                    dgvrow.Cells[2].ErrorText = null;
+                    dgvrow.ErrorText = null;
                     return true;
                 }
                 else
                 {
-                    //dgvrow.Cells[2].ErrorText = "加減分欄位只允許填入加分或減分!";
                     dgvrow.ErrorText = "加減分欄位只允許填入加分或減分!";
                     return false;
                 }
@@ -230,7 +240,6 @@ SELECT
             int n;
             if (string.IsNullOrEmpty("" + dgvrow.Cells[3].Value) || "" + dgvrow.Cells[3].Value == "0")
             {
-                //dgvrow.Cells[3].ErrorText = "最大值欄位不可空白、不為零!";
                 dgvrow.ErrorText = "最大值欄位不可空白、不為零!";
                 return false;
             }
@@ -238,12 +247,12 @@ SELECT
             {
                 if (!int.TryParse("" + dgvrow.Cells[3].Value, out n))
                 {
-                    dgvrow.Cells[3].ErrorText = "最大值欄位只允許填入數值!";
+                    dgvrow.ErrorText = "最大值欄位只允許填入數值!";
                     return false;
                 }
                 else
                 {
-                    dgvrow.Cells[3].ErrorText = null;
+                    dgvrow.ErrorText = null;
                     return true;
                 }
             }
@@ -267,6 +276,7 @@ SELECT
             }
             else
             {
+                dgvrow.Cells[4].ErrorText = null;
                 return true;
             }
         }
@@ -278,18 +288,22 @@ SELECT
         private bool Validate()
         {
             int rowIndex = 0;
+            this._dicItemNameByRowIndex.Clear();
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
             {
-                if(rowIndex == dataGridViewX1.Rows.Count - 1)
+                if (rowIndex == dataGridViewX1.Rows.Count - 1)
                 {
                     break;
                 }
-                rowIndex++;
 
                 // 驗證評分項目
                 if (!dgvName_Validate(dgvrow))
                 {
                     return false;
+                }
+                else
+                {
+                    this._dicItemNameByRowIndex.Add(rowIndex++, "" + dgvrow.Cells[1].Value);
                 }
 
                 // 驗證加減分欄位
@@ -297,46 +311,67 @@ SELECT
                 {
                     return false;
                 }
-
                 // 驗證加減分最大值欄位
                 if (!dgvMaxScore_Validate(dgvrow))
                 {
                     return false;
                 }
-
                 // 驗證排列序號欄位
                 if (!dgvDisplayOrder_Validate(dgvrow))
                 {
                     return false;
                 }
             }
-
             return true;
+        }
+
+        private void dataGridViewX1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this._initFinish)
+            {
+                if (e.RowIndex > -1 && e.ColumnIndex == 1)
+                {
+                    bool result = dgvName_Validate(dataGridViewX1.Rows[e.RowIndex]); 
+                    if (result) // 驗證完沒問題後再紀錄_dicItemNameByRowIndex
+                    {
+                        if (this._dicItemNameByRowIndex.ContainsKey(e.RowIndex))
+                        {
+                            this._dicItemNameByRowIndex[e.RowIndex] = "" + dataGridViewX1.Rows[e.RowIndex].Cells[1].Value;
+                        }
+                        else
+                        {
+                            this._dicItemNameByRowIndex.Add(e.RowIndex, "" + dataGridViewX1.Rows[e.RowIndex].Cells[1].Value);
+                        }
+                    }
+                }
+                if (e.RowIndex > -1 && e.ColumnIndex == 2)
+                {
+                    dgvAddorCut_Validate(dataGridViewX1.Rows[e.RowIndex]);
+                }
+                if (e.RowIndex > -1 && e.ColumnIndex == 3)
+                {
+                    dgvMaxScore_Validate(dataGridViewX1.Rows[e.RowIndex]);
+                }
+                if (e.RowIndex > -1 && e.ColumnIndex == 4)
+                {
+                    dgvDisplayOrder_Validate(dataGridViewX1.Rows[e.RowIndex]);
+                }
+            }
+        }
+
+        private void dataGridViewX1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            this._dicItemNameByRowIndex.Clear();
+            int row = 0;
+            foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
+            {
+                this._dicItemNameByRowIndex.Add(row++,"" + dgvrow.Cells[1].Value);
+            }
         }
 
         private void btnLeave_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void dataGridViewX1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex > -1 && e.ColumnIndex == 1)
-            {
-                dgvName_Validate(dataGridViewX1.Rows[e.RowIndex]);
-            }
-            if (e.RowIndex > -1 && e.ColumnIndex == 2)
-            {
-                dgvAddorCut_Validate(dataGridViewX1.Rows[e.RowIndex]);
-            }
-            if (e.RowIndex > -1 && e.ColumnIndex == 3)
-            {
-                dgvMaxScore_Validate(dataGridViewX1.Rows[e.RowIndex]);
-            }
-            if (e.RowIndex > -1 && e.ColumnIndex == 4)
-            {
-                dgvDisplayOrder_Validate(dataGridViewX1.Rows[e.RowIndex]);
-            }
         }
     }
 }

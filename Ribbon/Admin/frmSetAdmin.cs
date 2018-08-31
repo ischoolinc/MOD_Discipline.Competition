@@ -26,6 +26,8 @@ namespace Ischool.discipline_competition
         
         private void ReloadDataGridView()
         {
+            this.SuspendLayout();
+
             dataGridViewX1.Rows.Clear();
             // 取得管理員資料
             string sql = @"
@@ -54,6 +56,8 @@ FROM
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
+
+            this.ResumeLayout();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)

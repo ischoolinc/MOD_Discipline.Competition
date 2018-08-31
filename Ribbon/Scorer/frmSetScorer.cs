@@ -49,6 +49,8 @@ namespace Ischool.discipline_competition
 
         private void ReloadDataGridView()
         {
+            this.SuspendLayout();
+
             dataGridViewX1.Rows.Clear();
 
             #region SQL
@@ -98,6 +100,8 @@ ORDER BY
 
                 dataGridViewX1.Rows.Add(dgvrow);
             }
+
+            this.ResumeLayout();
         }
 
         private void dataGridViewX1_CellClick(object sender, DataGridViewCellEventArgs e)
