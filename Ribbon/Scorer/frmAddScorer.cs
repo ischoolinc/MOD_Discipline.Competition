@@ -159,7 +159,7 @@ ORDER BY
                     if (dgvrow.Cells[0].Value.ToString() == "True")
                     {
                         UDT.Scorer scorer = new UDT.Scorer();
-                        scorer.Account = dgvrow.Cells[5].Value.ToString();
+                        scorer.Account = dgvrow.Cells[6].Value.ToString();
                         scorer.RefStudentID = int.Parse(dgvrow.Tag.ToString());
                         scorer.SchoolYear = int.Parse(_schoolYear);
                         scorer.Semester = int.Parse(_semester);

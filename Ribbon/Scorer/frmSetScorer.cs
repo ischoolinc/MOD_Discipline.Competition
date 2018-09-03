@@ -60,7 +60,8 @@ SELECT
     , class.class_name
     , student.seat_no
     , student.name
-    , student.sa_login_name
+    , scorer.account
+    --, student.sa_login_name
     , scorer.uid
 FROM
     $ischool.discipline_competition.scorer AS scorer
@@ -94,7 +95,7 @@ ORDER BY
                 dgvrow.Cells[col++].Value = "" + row["class_name"];
                 dgvrow.Cells[col++].Value = "" + row["seat_no"];
                 dgvrow.Cells[col++].Value = "" + row["name"];
-                dgvrow.Cells[col++].Value = "" + row["sa_login_name"];
+                dgvrow.Cells[col++].Value = "" + row["account"];
                 dgvrow.Cells[col++].Value = "刪除";
                 dgvrow.Tag = "" + row["uid"]; // 評分員編號
 
