@@ -19,7 +19,7 @@ namespace Ischool.discipline_competition
 
             Group = "秩序競賽";
 
-            browser = new ChromiumWebBrowser("https://sites.google.com/ischool.com.tw/facilities-service/%E9%A6%96%E9%A0%81");
+            browser = new ChromiumWebBrowser("https://sites.google.com/ischool.com.tw/discipline-competition/%E9%A6%96%E9%A0%81");
             browser.Dock = DockStyle.Fill;
             ContentPanePanel.Controls.Add(browser);
 

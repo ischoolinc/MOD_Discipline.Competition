@@ -58,7 +58,7 @@ namespace Ischool.discipline_competition
             //檢查是否為布林
             bool.TryParse(cd[name], out checkUDT);
 
-            if (true) //!checkUDT
+            if (!checkUDT) //
             {
                 AccessHelper access = new AccessHelper();
                 access.Select<UDT.Admin>("UID = '00000'");
