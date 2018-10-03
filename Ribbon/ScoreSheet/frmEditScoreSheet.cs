@@ -17,7 +17,6 @@ namespace Ischool.discipline_competition
     {
         private DataRow _row;
         private AccessHelper _access = new AccessHelper();
-        private UpdateHelper _up = new UpdateHelper();
         private string _scoreSheetUID;
         private string _userAccount = DAO.Actor.Instance.GetUserAccount();
         private string _userName = DAO.Actor.Instance.GetUserName();
@@ -106,72 +105,9 @@ namespace Ischool.discipline_competition
             {
                 // 建立Log紀錄
                 string log = GetLogString();
-
-                #region DataRow
-                // 資料整理
-                string dataRow = string.Format(@"
-SELECT
-    {0}::BIGINT AS uid
-    , '{1}'::TEXT AS seat_no
-    , '{2}'::TEXT AS coordinate
-    , '{3}'::TEXT AS remark
-    , '{4}'::TEXT AS picture1
-    , '{5}'::TEXT AS pic1_comment
-    , '{6}'::TEXT AS picture2
-    , '{7}'::TEXT AS pic2_comment
-    , {8}::BOOLEAN AS is_canceled
-    , '{9}'::TIMESTAMP AS canceled_time
-    , '{10}'::TEXT AS canceled_name
-    , '{11}'::TEXT AS cnaceled_by
-    , '{12}'::TEXT AS cancel_reason
-    , {13}::BIGINT AS score
-                ", _scoreSheetUID
-                        , tbxSeatNo.Text.Trim()
-                        , tbxCoordinate.Text.Trim()
-                        , tbxRemark.Text.Trim()
-                        , tbxPic1URL.Text.Trim()
-                        , tbxPic1Comment.Text.Trim()
-                        , tbxPic2URL.Text.Trim()
-                        , tbxPic2Comment.Text.Trim()
-                        , ckbxIsCancel.Checked
-                        , DateTime.Now.ToString("yyyy/MM/dd HH:mm")
-                        , this._userName
-                        , this._userAccount
-                        , tbxCancelReason.Text
-                        , cbxScore.SelectedItem.ToString() 
-                        );
-                #endregion
-
-                #region SQL
-                string sql = string.Format(@"
-WITH data_row AS(
-    {0}
-)
-UPDATE $ischool.discipline_competition.score_sheet SET
-    seat_no = data_row.seat_no
-    , coordinate = data_row.coordinate
-    , remark = data_row.remark
-    , picture1 = data_row.picture1
-    , pic1_comment = data_row.pic1_comment
-    , picture2 = data_row.picture2
-    , pic2_comment = data_row.pic2_comment
-    , is_canceled = data_row.is_canceled
-    , canceled_time = data_row.canceled_time
-    , canceled_name = data_row.canceled_name
-    , canceled_by = data_row.cnaceled_by
-    , cancel_reason = data_row.cancel_reason
-    , score = data_row.score
-FROM
-    data_row
-WHERE
-    $ischool.discipline_competition.score_sheet.uid = data_row.uid
-                ", dataRow);
-                
-                #endregion
-                
                 try
                 {
-                    this._up.Execute(sql);
+                    DAO.ScoreSheet.UpdateScoreSheet(this._scoreSheetUID, tbxSeatNo.Text.Trim(), tbxCoordinate.Text.Trim(), tbxRemark.Text.Trim(), tbxPic1URL.Text.Trim(), tbxPic1Comment.Text.Trim(), tbxPic2URL.Text.Trim(), tbxPic2Comment.Text.Trim(), ckbxIsCancel.Checked, this._userName, this._userAccount, tbxCancelReason.Text.Trim(), cbxScore.SelectedItem.ToString());
                     FISCA.LogAgent.ApplicationLog.Log("秩序競賽", "修改評分紀錄", log);
                     MsgBox.Show("資料儲存成功!");
                     this.Close();
@@ -180,8 +116,17 @@ WHERE
                 {
                     MsgBox.Show(ex.Message);
                 }
-
             }
+        }
+
+        private void tbxSeatNo_TextChanged(object sender, EventArgs e)
+        {
+            tbxSeatNo_Validate();   
+        }
+
+        private void tbxCoordinate_TextChanged(object sender, EventArgs e)
+        {
+            tbxCoordinate_Validate();
         }
 
         private string GetLogString()
@@ -251,16 +196,32 @@ WHERE
             }
         }
 
-        private bool tbxSeatNo_Validate()
+        private bool SeatNoCoordinate_Validate()
         {
-            if (string.IsNullOrEmpty(tbxSeatNo.Text))
+            // 座號座標擇一輸入
+            if (!string.IsNullOrEmpty(tbxSeatNo.Text) && !string.IsNullOrEmpty(tbxCoordinate.Text))
             {
-                errorProvider1.SetError(tbxSeatNo, "違規座號不可空白!");
+                errorProvider1.SetError(tbxSeatNo, "座號座標擇一輸入!");
+                errorProvider1.SetError(tbxCoordinate, "座號座標擇一輸入!");
                 return false;
             }
             else
             {
+                errorProvider1.SetError(tbxSeatNo, null);
                 errorProvider1.SetError(tbxCoordinate, null);
+                return true;
+            }
+        }
+
+        private bool tbxSeatNo_Validate()
+        {
+            if (string.IsNullOrEmpty(tbxSeatNo.Text))
+            {
+                errorProvider1.SetError(tbxSeatNo,null);
+                return true;
+            }
+            else
+            {
                 string[] seatNos = tbxSeatNo.Text.Split(',');
                 int n = 0;
                 bool validateSuccess = false;
@@ -292,12 +253,11 @@ WHERE
         {
             if (string.IsNullOrEmpty(tbxCoordinate.Text))
             {
-                errorProvider1.SetError(tbxCoordinate, "違規座標不可空白!");
-                return false;
+                errorProvider1.SetError(tbxCoordinate,null);
+                return true;
             }
             else
             {
-                errorProvider1.SetError(tbxSeatNo, null);
                 string[] coordinates = tbxCoordinate.Text.Split(',');
                 bool validateSuccess = false;
                 foreach (string coordinate in coordinates)
@@ -353,41 +313,26 @@ WHERE
             {
                 return false;
             }
-
-            // 驗證違規之座號 & 違規之座標
-            if ((string.IsNullOrEmpty(tbxSeatNo.Text) && string.IsNullOrEmpty(tbxCoordinate.Text)) /*|| (!string.IsNullOrWhiteSpace(tbxSeatNo.Text) && !string.IsNullOrWhiteSpace(tbxCoordinate.Text))*/)
+            // 驗證違規之座號 
+            if (!tbxSeatNo_Validate())
             {
-                errorProvider1.SetError(tbxSeatNo, "違規之座號與違規之座標請擇一輸入!");
-                errorProvider1.SetError(tbxCoordinate, "違規之座號與違規之座標請擇一輸入!");
-
                 return false;
             }
-            else
+            // 驗證違規之座標
+            if (!tbxCoordinate_Validate())
             {
-                if (!string.IsNullOrEmpty(tbxSeatNo.Text) && string.IsNullOrEmpty(tbxCoordinate.Text)) 
-                {
-                    if (!tbxSeatNo_Validate())
-                    {
-                        return false;
-                    }
-                }
-                if (string.IsNullOrEmpty(tbxSeatNo.Text) && !string.IsNullOrEmpty(tbxCoordinate.Text))
-                {
-                    if (!tbxCoordinate_Validate())
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
-
             // 驗證取消原因
             if (!tbxCancelReason_Validate())
             {
                 return false;
             }
-
             // 驗證成功
-            return true;
+            else
+            {
+                return true;
+            }
         }
 
         private void ckbxIsCancel_CheckedChanged(object sender, EventArgs e)
@@ -415,5 +360,6 @@ WHERE
         {
             this.Close();
         }
+
     }
 }

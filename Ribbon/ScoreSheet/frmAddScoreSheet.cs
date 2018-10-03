@@ -208,12 +208,11 @@ ORDER BY
         {
             if (string.IsNullOrEmpty(tbxSeatNo.Text))
             {
-                errorProvider1.SetError(tbxSeatNo,"違規座號不可空白!");
-                return false;
+                errorProvider1.SetError(tbxSeatNo,null);
+                return true;
             }
             else
             {
-                errorProvider1.SetError(tbxCoordinate, null);
                 string [] seatNos = tbxSeatNo.Text.Split(',');
                 int n = 0;
                 bool validateSuccess = false;
@@ -245,8 +244,8 @@ ORDER BY
         {
             if (string.IsNullOrEmpty(tbxCoordinate.Text))
             {
-                errorProvider1.SetError(tbxCoordinate, "違規座標不可空白!");
-                return false;
+                errorProvider1.SetError(tbxCoordinate,null);
+                return true;
             }
             else
             {
@@ -291,6 +290,22 @@ ORDER BY
             }
         }
 
+        private bool SeatNoCoordinate_Validate()
+        {
+            if (!string.IsNullOrEmpty(tbxSeatNo.Text) && !string.IsNullOrEmpty(tbxCoordinate.Text))
+            {
+                errorProvider1.SetError(tbxSeatNo,"座號座標擇一輸入!");
+                errorProvider1.SetError(tbxCoordinate, "座號座標擇一輸入!");
+                return false;
+            }
+            else
+            {
+                errorProvider1.SetError(tbxSeatNo,null);
+                errorProvider1.SetError(tbxCoordinate,null);
+                return true;
+            }
+        }
+
         private bool Validate()
         {
             // 驗證班級
@@ -298,51 +313,36 @@ ORDER BY
             {
                 return false;
             }
-
             // 驗證評分時段
             if (!cbxPeriod_Validate())
             {
                 return false;
             }
-            
+            // 驗證違規之座號
+            if (!tbxCoordinate_Validate())
+            {
+                return false;
+            }
+            // 驗證違規之座標
+            if (!tbxSeatNo_Validate())
+            {
+                return false;
+            }
             // 驗證評分項目
             if (!cbxCheckItem_Validate())
             {
                 return false;
             }
-
-            // 驗證違規之座號 & 違規之座標
-            if ((string.IsNullOrEmpty(tbxSeatNo.Text) && string.IsNullOrEmpty(tbxCoordinate.Text)) || (!string.IsNullOrWhiteSpace(tbxSeatNo.Text) && !string.IsNullOrWhiteSpace(tbxCoordinate.Text)))
-            {
-                errorProvider1.SetError(tbxSeatNo, "違規之座號與違規之座標請擇一輸入!");
-                errorProvider1.SetError(tbxCoordinate, "違規之座號與違規之座標請擇一輸入!");
-
-                return false;
-            }
-            if (string.IsNullOrEmpty(tbxSeatNo.Text) && !string.IsNullOrEmpty(tbxCoordinate.Text))
-            {
-                if (!tbxCoordinate_Validate())
-                {
-                    return false;
-                }
-            }
-            if (!string.IsNullOrEmpty(tbxSeatNo.Text) && string.IsNullOrEmpty(tbxCoordinate.Text))
-            {
-                if (!tbxSeatNo_Validate())
-                {
-                    return false;
-                }
-            }
-            
             // 驗證評分加減分
             if (!cbxScore_Validate())
             {
                 return false;
             }
-
             // 驗證成功
-            return true;
-            
+            else
+            {
+                return true;
+            }
         }
 
         private void cbxPeriod_SelectedIndexChanged(object sender, EventArgs e)
@@ -363,7 +363,7 @@ ORDER BY
 
         private void tbxSeatNo_TextChanged(object sender, EventArgs e)
         {
-            tbxSeatNo_Validate();
+            tbxSeatNo_Validate();   
         }
 
         private void tbxCoordinate_TextChanged(object sender, EventArgs e)
@@ -375,7 +375,5 @@ ORDER BY
         {
             this.Close();
         }
-
-        
     }
 }

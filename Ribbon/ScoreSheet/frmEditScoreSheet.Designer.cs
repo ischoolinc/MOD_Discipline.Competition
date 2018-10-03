@@ -52,6 +52,8 @@
             this.btnLeave = new DevComponents.DotNetBar.ButtonX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.lbTime = new DevComponents.DotNetBar.LabelX();
+            this.labelX8 = new DevComponents.DotNetBar.LabelX();
             this.cbxScore = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.tbxPic2URL = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tbxPic1URL = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -69,8 +71,6 @@
             this.tbxCancelReason = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.labelX8 = new DevComponents.DotNetBar.LabelX();
-            this.lbTime = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.pbx1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbx2)).BeginInit();
             this.groupPanel1.SuspendLayout();
@@ -247,6 +247,7 @@
             this.tbxSeatNo.Name = "tbxSeatNo";
             this.tbxSeatNo.Size = new System.Drawing.Size(213, 25);
             this.tbxSeatNo.TabIndex = 16;
+            this.tbxSeatNo.TextChanged += new System.EventHandler(this.tbxSeatNo_TextChanged);
             // 
             // tbxCoordinate
             // 
@@ -259,6 +260,7 @@
             this.tbxCoordinate.Name = "tbxCoordinate";
             this.tbxCoordinate.Size = new System.Drawing.Size(213, 25);
             this.tbxCoordinate.TabIndex = 17;
+            this.tbxCoordinate.TextChanged += new System.EventHandler(this.tbxCoordinate_TextChanged);
             // 
             // tbxRemark
             // 
@@ -442,6 +444,32 @@
             this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel1.TabIndex = 27;
             this.groupPanel1.Text = "評分紀錄";
+            // 
+            // lbTime
+            // 
+            // 
+            // 
+            // 
+            this.lbTime.BackgroundStyle.Class = "";
+            this.lbTime.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbTime.Location = new System.Drawing.Point(546, 14);
+            this.lbTime.Name = "lbTime";
+            this.lbTime.Size = new System.Drawing.Size(75, 23);
+            this.lbTime.TabIndex = 35;
+            this.lbTime.Text = "lbTime";
+            // 
+            // labelX8
+            // 
+            // 
+            // 
+            // 
+            this.labelX8.BackgroundStyle.Class = "";
+            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX8.Location = new System.Drawing.Point(505, 14);
+            this.labelX8.Name = "labelX8";
+            this.labelX8.Size = new System.Drawing.Size(35, 23);
+            this.labelX8.TabIndex = 34;
+            this.labelX8.Text = "時間";
             // 
             // cbxScore
             // 
@@ -700,32 +728,6 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
-            // 
-            // labelX8
-            // 
-            // 
-            // 
-            // 
-            this.labelX8.BackgroundStyle.Class = "";
-            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX8.Location = new System.Drawing.Point(505, 14);
-            this.labelX8.Name = "labelX8";
-            this.labelX8.Size = new System.Drawing.Size(35, 23);
-            this.labelX8.TabIndex = 34;
-            this.labelX8.Text = "時間";
-            // 
-            // lbTime
-            // 
-            // 
-            // 
-            // 
-            this.lbTime.BackgroundStyle.Class = "";
-            this.lbTime.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTime.Location = new System.Drawing.Point(546, 14);
-            this.lbTime.Name = "lbTime";
-            this.lbTime.Size = new System.Drawing.Size(75, 23);
-            this.lbTime.TabIndex = 35;
-            this.lbTime.Text = "lbTime";
             // 
             // frmEditScoreSheet
             // 

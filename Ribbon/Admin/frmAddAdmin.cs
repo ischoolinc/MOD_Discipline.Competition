@@ -101,30 +101,6 @@ WHERE
                     {
                         MsgBox.Show(ex.Message);
                     }
-
-
-                    //List<UDT.Admin> listInsertAdmin = new List<UDT.Admin>();
-                    //UDT.Admin admin = new UDT.Admin();
-                    //admin.Account = account;
-                    //admin.RefTeacherID = int.Parse(teacherID);
-                    //admin.CreateTime = DateTime.Now;
-                    //admin.CreatedBy = DAO.Actor.Instance.GetUserAccount();
-
-                    //listInsertAdmin.Add(admin);
-
-                    //AccessHelper access = new AccessHelper();
-
-                    //try
-                    //{
-                    //    //access.InsertValues(listInsertAdmin);
-                    //    MsgBox.Show("資料儲存成功!");
-                    //    this.Close();
-                    //}
-                    //catch(Exception ex)
-                    //{
-                    //    MsgBox.Show(ex.Message);
-                    //}
-                    
                 }
             }
         }

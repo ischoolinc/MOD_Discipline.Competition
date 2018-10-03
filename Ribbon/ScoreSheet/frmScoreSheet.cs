@@ -28,11 +28,39 @@ namespace Ischool.discipline_competition
             lbSchoolYear.Text = School.DefaultSchoolYear;
             lbSemester.Text = School.DefaultSemester;
 
+            #region Init cbxIsCancel
+            {
+                CancelStatus item1 = new CancelStatus();
+                item1.Text = "--全部--";
+                CancelStatus item2 = new CancelStatus();
+                item2.Text = "是";
+                item2.IsCancel = "true";
+                CancelStatus item3 = new CancelStatus();
+                item3.Text = "否";
+                item3.IsCancel = "false";
+
+                cbxIsCancel.Items.Add(item1);
+                cbxIsCancel.Items.Add(item2);
+                cbxIsCancel.Items.Add(item3);
+                cbxIsCancel.DisplayMember = "Text";
+                cbxIsCancel.ValueMember = "IsCancel";
+
+                cbxIsCancel.SelectedIndex = 0;
+            }
+            #endregion
+
             dateTimeInput1.Value = DateTime.Now;
 
             ReloadDataGridView();
             _initFinish = true;
+        }
 
+        private void cbxIsCancel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_initFinish)
+            {
+                ReloadDataGridView();
+            }
         }
 
         private void dateTimeInput1_ValueChanged(object sender, EventArgs e)
@@ -49,45 +77,7 @@ namespace Ischool.discipline_competition
 
             dataGridViewX1.Rows.Clear();
 
-            #region SQL
-            string sql = string.Format(@"
-SELECT
-    class.class_name 
-    , check_item.name AS check_item_name
-    , check_item.max_score 
-    , check_item.min_score
-    , student.name AS student_name
-    , teacher.teacher_name
-    , CASE
-        WHEN student.name IS NOT NULL THEN '評分員'
-        WHEN teacher.teacher_name IS NOT NULL THEN '管理員'
-        ELSE ''
-        END AS 身分
-    , score_sheet.*
-FROM
-    $ischool.discipline_competition.score_sheet AS score_sheet
-    LEFT OUTER JOIN class
-        ON class.id = score_sheet.ref_class_id
-    LEFT OUTER JOIN $ischool.discipline_competition.check_item AS check_item
-        ON check_item.uid = score_sheet.ref_check_item_id
-    LEFT OUTER JOIN $ischool.discipline_competition.scorer AS scorer
-        ON scorer.account = score_sheet.account
-    LEFT OUTER JOIN student
-        ON student.id = scorer.ref_student_id
-    LEFT OUTER JOIN $ischool.discipline_competition.admin AS admin
-        ON admin.account = score_sheet.account
-    LEFT OUTER JOIN teacher
-        ON teacher.id = admin.ref_teacher_id
-WHERE
-    score_sheet.create_time::DATE = '{0}'::DATE
-ORDER BY
-    class.grade_year
-    , class.display_order
-    , check_item.display_order
-            ", dateTimeInput1.Value.ToString("yyyy-MM-dd")); 
-            #endregion
-
-            DataTable dt = _qh.Select(sql);
+            DataTable dt = DAO.ScoreSheet.GetScoreSheetByCondition(dateTimeInput1.Value.ToString("yyyy-MM-dd"), ((CancelStatus)cbxIsCancel.SelectedItem).IsCancel);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -133,9 +123,16 @@ ORDER BY
             form.ShowDialog();
         }
 
+        private class CancelStatus
+        {
+            public string Text { get; set; }
+            public string IsCancel { get; set; }
+        }
+
         private void btnLeave_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+       
     }
 }

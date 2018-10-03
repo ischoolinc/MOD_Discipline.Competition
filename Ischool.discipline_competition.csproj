@@ -35,6 +35,7 @@
     <Compile Include="DAO\Admin.cs" />
     <Compile Include="DAO\CheckItem.cs" />
     <Compile Include="DAO\Period.cs" />
+    <Compile Include="DAO\ScoreSheet.cs" />
     <Compile Include="DAO\SemesterRank.cs" />
     <Compile Include="DAO\WeeklyRank.cs" />
     <Compile Include="DisciplineCompetitionPanel.cs">
