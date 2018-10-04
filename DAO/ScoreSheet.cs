@@ -24,9 +24,18 @@ namespace Ischool.discipline_competition.DAO
             }
             else
             {
-                condition = string.Format(@"
+                if (isCancel == "false")
+                {
+                    condition = string.Format(@"
+    AND(score_sheet.is_canceled = {0}::BOOLEAN OR  score_sheet.is_canceled IS NULL)       
+                    ", isCancel);
+                }
+                else
+                {
+                    condition = string.Format(@"
     AND score_sheet.is_canceled = {0}::BOOLEAN
-            ", isCancel);
+                    ", isCancel);
+                }
             }
 
             string sql = string.Format(@"
