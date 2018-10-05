@@ -90,7 +90,7 @@ namespace Ischool.discipline_competition
                 dgvrow.Cells[col++].Value = "" + row["seat_no"];
                 dgvrow.Cells[col++].Value = "" + row["coordinate"];
                 dgvrow.Cells[col++].Value = "" + row["score"];
-                dgvrow.Cells[col++].Value = ("" + row["身分"]) == "評分員" ? ("" + row["student_name"]) : ("" + row["teacher_name"]);
+                dgvrow.Cells[col++].Value = ("" + row["身分"]) == "評分員" ? ("" + row["student_name"]) : ("" + row["account"]);
                 dgvrow.Cells[col++].Value = "" + row["身分"];
                 dgvrow.Cells[col++].Value = ("" + row["is_canceled"]) == "true" ? "是" : "否";
                 dgvrow.Tag = row;

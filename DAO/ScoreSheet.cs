@@ -38,6 +38,7 @@ namespace Ischool.discipline_competition.DAO
                 }
             }
 
+            #region SQL
             string sql = string.Format(@"
 SELECT
     class.class_name 
@@ -45,11 +46,10 @@ SELECT
     , check_item.max_score 
     , check_item.min_score
     , student.name AS student_name
-    , teacher.teacher_name
+    --, teacher.teacher_name
     , CASE
         WHEN student.name IS NOT NULL THEN '評分員'
-        WHEN teacher.teacher_name IS NOT NULL THEN '管理員'
-        ELSE ''
+        ELSE '管理員'
         END AS 身分
     , score_sheet.*
 FROM
@@ -62,10 +62,10 @@ FROM
         ON scorer.account = score_sheet.account
     LEFT OUTER JOIN student
         ON student.id = scorer.ref_student_id
-    LEFT OUTER JOIN $ischool.discipline_competition.admin AS admin
-        ON admin.account = score_sheet.account
-    LEFT OUTER JOIN teacher
-        ON teacher.id = admin.ref_teacher_id
+   -- LEFT OUTER JOIN $ischool.discipline_competition.admin AS admin
+   --     ON admin.account = score_sheet.account
+   -- LEFT OUTER JOIN teacher
+   --     ON teacher.id = admin.ref_teacher_id
 WHERE
     score_sheet.create_time::DATE = '{0}'::DATE
     {1}
@@ -73,7 +73,8 @@ ORDER BY
     class.grade_year
     , class.display_order
     , check_item.display_order
-            ", date, condition);
+            ", date, condition); 
+            #endregion
 
             return _qh.Select(sql);
         }
