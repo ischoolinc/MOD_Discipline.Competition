@@ -13,6 +13,7 @@ using System.Data;
 using K12.Data;
 using FISCA.Presentation.Controls;
 using System.Net;
+using System.Reflection;
 
 namespace Ischool.discipline_competition
 {
@@ -43,6 +44,8 @@ namespace Ischool.discipline_competition
         [MainMethod("秩序競賽模組")]
         static public void Main()
         {
+            LeaveDotsAndSlashesEscaped();
+
             #region Init UDT
             ConfigData cd = K12.Data.School.Configuration["秩序比賽模組載入設定"];
 
@@ -263,6 +266,27 @@ namespace Ischool.discipline_competition
             #endregion
 
             #endregion
+        }
+
+        private static void LeaveDotsAndSlashesEscaped()
+        {
+            var getSyntaxMethod =
+                typeof(UriParser).GetMethod("GetSyntax", BindingFlags.Static | BindingFlags.NonPublic);
+            //if (getSyntaxMethod == null)
+            //{
+            //    throw new MissingMethodException("UriParser", "GetSyntax");
+            //}
+
+            var uriParser = getSyntaxMethod.Invoke(null, new object[] { "https" });
+
+            var setUpdatableFlagsMethod =
+                uriParser.GetType().GetMethod("SetUpdatableFlags", BindingFlags.Instance | BindingFlags.NonPublic);
+            //if (setUpdatableFlagsMethod == null)
+            //{
+            //    throw new MissingMethodException("UriParser", "SetUpdatableFlags");
+            //}
+
+            setUpdatableFlagsMethod.Invoke(uriParser, new object[] { 0 });
         }
 
         /// <summary>

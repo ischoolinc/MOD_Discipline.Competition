@@ -120,7 +120,7 @@
             this.lbScorer.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbScorer.Location = new System.Drawing.Point(81, 14);
             this.lbScorer.Name = "lbScorer";
-            this.lbScorer.Size = new System.Drawing.Size(75, 23);
+            this.lbScorer.Size = new System.Drawing.Size(179, 23);
             this.lbScorer.TabIndex = 2;
             this.lbScorer.Text = "labelX2";
             // 

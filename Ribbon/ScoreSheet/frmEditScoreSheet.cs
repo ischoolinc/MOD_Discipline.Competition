@@ -37,7 +37,7 @@ namespace Ischool.discipline_competition
                 lbIdentity.Text = "" + this._row["身分"];
                 if (lbIdentity.Text == "管理員")
                 {
-                    lbScorer.Text = "" + this._row["teacher_name"];
+                    lbScorer.Text = "" + this._row["account"];
                 }
                 else
                 {
