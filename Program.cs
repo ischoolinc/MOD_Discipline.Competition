@@ -110,14 +110,7 @@ namespace Ischool.discipline_competition
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"]["設定管理員"].Enable = Permissions.設定管理員權限;
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"]["設定管理員"].Click += delegate
                 {
-                    if (isAdmin)
-                    {
-                        (new frmSetAdmin()).ShowDialog();
-                    }
-                    else
-                    {
-                        MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                    }
+                    (new frmSetAdmin()).ShowDialog();
                 };
             }
             #endregion
@@ -127,14 +120,7 @@ namespace Ischool.discipline_competition
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"]["設定評分員"].Enable = Permissions.設定評分員權限;
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"]["設定評分員"].Click += delegate 
                 {
-                    if (isAdmin)
-                    {
-                        (new frmSetScorer()).ShowDialog();
-                    }
-                    else
-                    {
-                        MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                    }
+                    (new frmSetScorer()).ShowDialog();
                 };
             }
             #endregion
@@ -144,14 +130,7 @@ namespace Ischool.discipline_competition
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["評分設定"]["設定評分時段"].Enable = Permissions.設定評分時段權限;
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["評分設定"]["設定評分時段"].Click += delegate
                 {
-                    if (isAdmin)
-                    {
-                        (new frmSetScorePeriod()).ShowDialog();
-                    }
-                    else
-                    {
-                        MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                    }
+                    (new frmSetScorePeriod()).ShowDialog();
                 };
             }
             #endregion
@@ -161,14 +140,7 @@ namespace Ischool.discipline_competition
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["評分設定"]["設定評分項目"].Enable = Permissions.設定評分項目權限;
                 MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["評分設定"]["設定評分項目"].Click += delegate
                 {
-                    if (isAdmin)
-                    {
-                        (new frmSetCheckItem()).ShowDialog();
-                    }
-                    else
-                    {
-                        MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                    }
+                    (new frmSetCheckItem()).ShowDialog();
                 };
             }
             #endregion
@@ -178,14 +150,7 @@ namespace Ischool.discipline_competition
                 MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["管理評分紀錄"].Enable = Permissions.管理評分紀錄權限;
                 MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["管理評分紀錄"].Click += delegate
                 {
-                    if (isAdmin)
-                    {
-                        (new frmScoreSheet()).ShowDialog();
-                    }
-                    else
-                    {
-                        MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                    }
+                    (new frmScoreSheet()).ShowDialog();
                 };
             }
             #endregion
@@ -194,14 +159,7 @@ namespace Ischool.discipline_competition
             MotherForm.RibbonBarItems["秩序競賽", "排名作業"]["計算排名"]["計算週排名"].Enable = Permissions.計算週排名權限;
             MotherForm.RibbonBarItems["秩序競賽", "排名作業"]["計算排名"]["計算週排名"].Click += delegate
             {
-                if (isAdmin)
-                {
-                    (new frmWeeklyScore()).ShowDialog();
-                }
-                else
-                {
-                    MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                }
+                (new frmWeeklyScore()).ShowDialog();
             };
             #endregion
 
@@ -209,14 +167,7 @@ namespace Ischool.discipline_competition
             MotherForm.RibbonBarItems["秩序競賽", "排名作業"]["計算排名"]["計算學期排名"].Enable = Permissions.計算學期排名權限;
             MotherForm.RibbonBarItems["秩序競賽", "排名作業"]["計算排名"]["計算學期排名"].Click += delegate
             {
-                if (isAdmin)
-                {
-                    (new frmSemesterScore()).ShowDialog();
-                }
-                else
-                {
-                    MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                }
+                (new frmSemesterScore()).ShowDialog();
             };
             #endregion
 
@@ -224,14 +175,7 @@ namespace Ischool.discipline_competition
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["週排名報表"].Enable = Permissions.週排名報表權限;
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["週排名報表"].Click += delegate
             {
-                if (isAdmin)
-                {
-                    (new frmWeeklyRankReport()).ShowDialog();
-                }
-                else
-                {
-                    MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                }
+                (new frmWeeklyRankReport()).ShowDialog();
             };
             #endregion
 
@@ -239,14 +183,7 @@ namespace Ischool.discipline_competition
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["學期排名報表"].Enable = Permissions.學期排名報表權限;
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["學期排名報表"].Click += delegate
             {
-                if (isAdmin)
-                {
-                    (new frmSemesterRankReport()).ShowDialog();
-                }
-                else
-                {
-                    MsgBox.Show("此帳號沒有秩序競賽管理權限!");
-                }
+                (new frmSemesterRankReport()).ShowDialog();
             };
             #endregion
 

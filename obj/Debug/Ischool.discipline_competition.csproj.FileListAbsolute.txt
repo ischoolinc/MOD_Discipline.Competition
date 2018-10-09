@@ -21,6 +21,8 @@ C:\Users\User\source\repos\Loader(dev.sh_d)\Ischool.discipline_competition\obj\D
 C:\Users\User\source\repos\Loader(dev.sh_d)\Ischool.discipline_competition\obj\Debug\Ischool.discipline_competition.frmAddScoreSheet.resources
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\bin\Debug\Ischool.discipline_competition.dll
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\bin\Debug\Ischool.discipline_competition.pdb
+D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.csprojResolveAssemblyReference.cache
+D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.DisciplineCompetitionPanel.resources
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.Properties.Resources.resources
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.frmAddScoreSheet.resources
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.frmAddAdmin.resources
@@ -39,5 +41,3 @@ D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Is
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.csproj.CoreCompileInputs.cache
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.dll
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.pdb
-D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.DisciplineCompetitionPanel.resources
-D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.csprojResolveAssemblyReference.cache

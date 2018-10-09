@@ -56,6 +56,10 @@ WHERE
                 {
                     this._userName = "" + dt.Rows[0]["teacher_name"];
                 }
+                else
+                {
+                    this._userName = this._userAccount;
+                }
             }
             #endregion
 
@@ -76,15 +80,13 @@ WHERE
             {
                 string sql = string.Format(@"
 SELECT 
-    teacher.*
+    _login.*
 FROM
-    teacher
-    LEFT OUTER JOIN _login
-        ON teacher.st_login_name = _login.login_name
+    _login
     LEFT OUTER JOIN _lr_belong
         ON _login.id = _lr_belong._login_id
 WHERE
-    teacher.st_login_name = '{0}'
+    _login.login_name = '{0}'
     AND _lr_belong._role_id = {1}
                 ", this._userAccount, this._roleAdminID);
 
