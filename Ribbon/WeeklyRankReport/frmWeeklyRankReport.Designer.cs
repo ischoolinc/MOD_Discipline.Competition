@@ -166,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 142);
+            this.ClientSize = new System.Drawing.Size(389, 141);
             this.Controls.Add(this.labelX4);
             this.Controls.Add(this.btnLeave);
             this.Controls.Add(this.btnPrint);
@@ -177,6 +177,8 @@
             this.Controls.Add(this.cbxSchoolYear);
             this.Controls.Add(this.labelX1);
             this.DoubleBuffered = true;
+            this.MaximumSize = new System.Drawing.Size(405, 180);
+            this.MinimumSize = new System.Drawing.Size(405, 180);
             this.Name = "frmWeeklyRankReport";
             this.Text = "週排名報表";
             this.Load += new System.EventHandler(this.frmWeeklyRankReport_Load);

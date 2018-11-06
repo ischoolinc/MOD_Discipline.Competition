@@ -71,6 +71,15 @@ namespace Ischool.discipline_competition
             }
         }
 
+        public static string 加扣分違規表 { get { return "FAC9288B-815A-43A7-8176-F9DBAE1FD7EA"; } }
+        public static bool 加扣分違規表權限
+        {
+            get
+            {
+                return FISCA.Permission.UserAcl.Current[加扣分違規表].Executable;
+            }
+        }
+
         public static string 週排名報表 { get { return "17414565-15CC-431B-B6F4-1621DAD7F2C2"; } }
         public static bool 週排名報表權限
         {

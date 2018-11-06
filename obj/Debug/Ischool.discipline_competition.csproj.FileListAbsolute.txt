@@ -41,3 +41,4 @@ D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Is
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.csproj.CoreCompileInputs.cache
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.dll
 D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.pdb
+D:\Users\小金\Documents\github_ischool\MOD_Discipline.Competition\obj\Debug\Ischool.discipline_competition.ScoreSheetReport.resources

@@ -38,6 +38,7 @@ namespace Ischool.discipline_competition
 	<Feature Code=""5BAF9935-713B-44FB-82C9-2357C69C3CB7"" Permission=""Execute""/>
 	<Feature Code=""17414565-15CC-431B-B6F4-1621DAD7F2C2"" Permission=""Execute""/>
 	<Feature Code=""9D39A466-D169-426E-8B5F-CB7B2E4C5111"" Permission=""Execute""/>
+    <Feature Code=""FAC9288B-815A-43A7-8176-F9DBAE1FD7EA"" Permission=""Execute""/>
 </Permissions>
 ";
 
@@ -171,6 +172,16 @@ namespace Ischool.discipline_competition
             };
             #endregion
 
+            #region 加扣分違規表
+
+            MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["加扣分違規表"].Enable = Permissions.加扣分違規表權限;
+            MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["加扣分違規表"].Click += delegate
+            {
+                (new ScoreSheetReport()).ShowDialog();
+            };
+
+            #endregion
+
             #region 週排名報表
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["週排名報表"].Enable = Permissions.週排名報表權限;
             MotherForm.RibbonBarItems["秩序競賽", "評分管理 / 統計報表"]["報表"]["週排名報表"].Click += delegate
@@ -198,6 +209,7 @@ namespace Ischool.discipline_competition
             detail.Add(new RibbonFeature(Permissions.管理評分紀錄, "管理評分紀錄"));
             detail.Add(new RibbonFeature(Permissions.計算週排名, "計算週排名"));
             detail.Add(new RibbonFeature(Permissions.計算學期排名, "計算學期排名"));
+            detail.Add(new RibbonFeature(Permissions.加扣分違規表, "加扣分違規表"));
             detail.Add(new RibbonFeature(Permissions.週排名報表, "週排名報表"));
             detail.Add(new RibbonFeature(Permissions.學期排名報表, "學期排名報表"));
             #endregion
