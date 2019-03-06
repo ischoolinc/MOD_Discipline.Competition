@@ -22,7 +22,7 @@ namespace Ischool.discipline_competition
         private DateTime _endDate;
         private List<string> _listExistCheckItem = new List<string>();
         private Dictionary<string,DataRow> dicClassDataByID;
-
+        private AccessHelper _access = new AccessHelper();
         private Dictionary<string, List<UDT.ScoreSheet>> dicRecordsByClassID;   //各班級該週的評分紀錄
 
         private List<UDT.WeeklyStats> _listInsertWeeklyStats; // 週統計
@@ -68,9 +68,6 @@ WHERE
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Execute()
         {
             // 1.取得日期區間評分紀錄
@@ -85,20 +82,22 @@ WHERE
         /// </summary>
         private void getRawRecords()
         {
-            AccessHelper access = new AccessHelper();
-            List<UDT.ScoreSheet> listScoreSheet = access.Select<UDT.ScoreSheet>(string.Format("create_time > '{0}' AND create_time <= '{1}'",this._startDate,this._endDate));
+            List<UDT.ScoreSheet> listScoreSheet = this._access.Select<UDT.ScoreSheet>(string.Format("create_time >= '{0}' AND create_time <= '{1}'", this._startDate,this._endDate));
             foreach(UDT.ScoreSheet sheet in listScoreSheet)
             {
-                string key = "" + sheet.RefClassID;
-                if (!dicRecordsByClassID.ContainsKey(key))
+                if (!sheet.IsCancel)
                 {
-                    dicRecordsByClassID.Add(key, new List<UDT.ScoreSheet>());
+                    string key = "" + sheet.RefClassID;
+                    if (!dicRecordsByClassID.ContainsKey(key))
+                    {
+                        dicRecordsByClassID.Add(key, new List<UDT.ScoreSheet>());
+                    }
+                    dicRecordsByClassID[key].Add(sheet);
                 }
-                dicRecordsByClassID[key].Add(sheet);
             }
 
             // 取得所有評分項目編號
-            List<UDT.CheckItem> listCheckItem = access.Select<UDT.CheckItem>();
+            List<UDT.CheckItem> listCheckItem = this._access.Select<UDT.CheckItem>();
             foreach (UDT.CheckItem data in listCheckItem)
             {
                 this._listExistCheckItem.Add(data.UID);
@@ -108,9 +107,8 @@ WHERE
         private void calculateScore()
         {
             // 0. 刪除日期區間週統計
-            AccessHelper access = new AccessHelper();
-            List<UDT.WeeklyStats> listWeeklyStats = access.Select<UDT.WeeklyStats>(string.Format("school_year = {0} AND semester = {1} AND week_number = {2}", this._schoolYear, this._semester, this._weekNo));
-            access.DeletedValues(listWeeklyStats);
+            List<UDT.WeeklyStats> listWeeklyStats = this._access.Select<UDT.WeeklyStats>(string.Format("school_year = {0} AND semester = {1} AND week_number = {2}", this._schoolYear, this._semester, this._weekNo));
+            this._access.DeletedValues(listWeeklyStats);
 
             // 1. 針對每個班級
             foreach (string classID in dicClassDataByID.Keys)
@@ -143,7 +141,7 @@ WHERE
                 _listInsertWeeklyStats.Add(weeklyStats);
             }
             //  1.3 更新資料庫
-            access.InsertValues(_listInsertWeeklyStats);
+            this._access.InsertValues(_listInsertWeeklyStats);
 
         }
     }

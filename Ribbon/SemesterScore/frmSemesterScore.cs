@@ -13,12 +13,16 @@ using FISCA.UDT;
 using FISCA.Data;
 using Aspose.Cells;
 using System.IO;
+using FISCA.Presentation;
 
 namespace Ischool.discipline_competition
 {
     public partial class frmSemesterScore : BaseForm
     {
         private AccessHelper _access = new AccessHelper();
+        private QueryHelper _qh = new QueryHelper();
+        private Dictionary<string, PrintHistory> _dicPrintHistory = new Dictionary<string, PrintHistory>();
+        private BackgroundWorker _bgw = new BackgroundWorker();
 
         private class PrintHistory
         {
@@ -28,11 +32,13 @@ namespace Ischool.discipline_competition
             public string CreateBy { get; set; }
         }
 
-        private Dictionary<string, PrintHistory> _dicPrintHistory = new Dictionary<string, PrintHistory>();
-
         public frmSemesterScore()
         {
             InitializeComponent();
+            this._bgw.WorkerReportsProgress = true;
+            this._bgw.DoWork += new DoWorkEventHandler(this.bgw_DoWork);
+            this._bgw.ProgressChanged += new ProgressChangedEventHandler(this.bgw_ProgressChanged);
+            this._bgw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(this.bgw_RunWorkerCompleted);
         }
 
         private void frmSemesterScore_Load(object sender, EventArgs e)
@@ -68,8 +74,8 @@ SELECT DISTINCT
 FROM
     $ischool.discipline_competition.semester_stats
 ";
-            QueryHelper qh = new QueryHelper();
-            DataTable dt = qh.Select(sql);
+            
+            DataTable dt = this._qh.Select(sql);
 
             foreach (DataRow row in dt.Rows)
             {
@@ -87,44 +93,83 @@ FROM
 
         private void btnCalculateScore_Click(object sender, EventArgs e)
         {
-            string key = string.Format("{0}_{1}",cbxSchoolYear.SelectedItem.ToString(),cbxSemester.SelectedItem.ToString());
+            DataObject data = new DataObject();
+            data.SchoolYear = cbxSchoolYear.SelectedItem.ToString();
+            data.Semester = cbxSemester.SelectedItem.ToString();
+
+            this.btnCalculateScore.Enabled = false;
+
+            this._bgw.RunWorkerAsync(data);
+        }
+
+        private void bgw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            DataObject data = (DataObject)e.Argument;
+
+            string key = string.Format("{0}_{1}", data.SchoolYear, data.Semester);
             if (this._dicPrintHistory.ContainsKey(key))
             {
                 PrintHistory ph = this._dicPrintHistory[key];
 
                 DialogResult dRresult = MsgBox.Show(string.Format("「{0}」學年度、「{1}」學期，學期排名作業已計算過! \n 計算日期{2} 計算者{3}  \n 確定重新計算?"
-                    , ph.SchoolYear,ph.Semester,ph.CreateDate,ph.CreateBy), "提醒",MessageBoxButtons.YesNo);
+                    , ph.SchoolYear, ph.Semester, ph.CreateDate, ph.CreateBy), "提醒", MessageBoxButtons.YesNo);
 
                 if (dRresult == DialogResult.Yes)
                 {
-                    execute();
+                    execute(data.SchoolYear, data.Semester, e);
                 }
             }
             else
             {
-                execute();
+                execute(data.SchoolYear, data.Semester, e);
             }
         }
 
-        private void execute()
+        private void bgw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            // 顯示進度條
+            MotherForm.SetStatusBarMessage("計算學期排名中...", e.ProgressPercentage);
+        }
+
+        private void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                MsgBox.Show(e.Error.Message);
+            }
+            else
+            {
+                this.btnCalculateScore.Enabled = true;
+                MotherForm.SetStatusBarMessage("計算學期排名完成。");
+
+                DialogResult result = MsgBox.Show("學期排名已計算完成，確定產出排名報表?", "提醒", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    DataTable dt = (DataTable)e.Result;
+                    print(dt);
+                }
+            }
+        }
+
+        private void execute(string schoolYear, string semester, DoWorkEventArgs e)
+        {
+            this._bgw.ReportProgress(15);
             // 1.計算各班學期統計
-            SemesterStatsCalculator calOne = new SemesterStatsCalculator(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
+            SemesterStatsCalculator calOne = new SemesterStatsCalculator(schoolYear, semester);
             calOne.Execute();
+            this._bgw.ReportProgress(30);
 
             // 2.根據年級計算學期排名
-            SemesterRankCalculator calTwo = new SemesterRankCalculator(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
+            SemesterRankCalculator calTwo = new SemesterRankCalculator(schoolYear, semester);
             calTwo.Execute();
+            this._bgw.ReportProgress(60);
 
             // 3. 找出當學期排名
-            DataTable dt = DAO.SemesterRank.GetSemesterRank(cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString());
+            DataTable dt = DAO.SemesterRank.GetSemesterRank(schoolYear, semester);
+            this._bgw.ReportProgress(90);
 
-            DialogResult result = MsgBox.Show("學期排名已計算完成，確定產出排名報表?", "提醒", MessageBoxButtons.YesNo);
-
-            if (result == DialogResult.Yes)
-            {
-                print(dt);
-            }
+            e.Result = dt;
         }
 
         private void print(DataTable dt)
@@ -218,6 +263,12 @@ FROM
         private void btnLeave_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private class DataObject
+        {
+            public string SchoolYear;
+            public string Semester;
         }
     }
 }
