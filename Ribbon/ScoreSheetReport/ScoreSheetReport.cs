@@ -116,6 +116,8 @@ ORDER BY
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            this.btnPrint.Enabled = false;
+
             #region 取得資料
             string startDate = DateTime.Parse(this._dicWeekNoRecord[cbxWeekNo.SelectedItem.ToString()].StartDate).ToString("yyyy/MM/dd");
             string endDate = DateTime.Parse(this._dicWeekNoRecord[cbxWeekNo.SelectedItem.ToString()].EndDate).ToString("yyyy/MM/dd");
@@ -142,6 +144,10 @@ WHERE
     AND semester = {1}
     AND date_trunc('day', score_sheet.create_time) >= '{2}'
     AND date_trunc('day', score_sheet.create_time) <= '{3}'
+    AND (
+        is_canceled <> true 
+		OR is_canceled IS NULL
+    )
             ", cbxSchoolYear.SelectedItem.ToString(), cbxSemester.SelectedItem.ToString(), startDate, endDate);
 
             DataTable dt = this._qh.Select(sql);
@@ -242,6 +248,8 @@ WHERE
             }
 
             #endregion
+
+            this.btnPrint.Enabled = true;
         }
 
         public string ParseSeatNo_Coordinate(string seatNo,string coordinate)
