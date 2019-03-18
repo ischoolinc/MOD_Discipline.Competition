@@ -131,6 +131,7 @@ SELECT
     , score_sheet.coordinate
     , check_item.name AS item_name
     , score_sheet.score 
+    , score_sheet.remark
 FROM
     $ischool.discipline_competition.score_sheet AS score_sheet
     LEFT OUTER JOIN class
@@ -204,6 +205,7 @@ WHERE
                     sheet.Cells[rowIndex, colIndex++].PutValue(ParseSeatNo_Coordinate("" + row["seat_no"], "" + row["coordinate"]));
                     sheet.Cells[rowIndex, colIndex++].PutValue("" + row["item_name"]);
                     sheet.Cells[rowIndex, colIndex++].PutValue("" + row["score"]);
+                    sheet.Cells[rowIndex, colIndex++].PutValue("" + row["remark"]);
 
                     rowIndex++;
                 }

@@ -133,6 +133,7 @@ ORDER BY
 
         public void ReloadDataGridView(string gradeYear)
         {
+            this.SuspendLayout();
             pictureBox1.Visible = true;
             foreach (DataGridViewRow dgvrow in dataGridViewX1.Rows)
             {
@@ -146,6 +147,7 @@ ORDER BY
                 }
             }
             pictureBox1.Visible = false;
+            this.ResumeLayout();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
