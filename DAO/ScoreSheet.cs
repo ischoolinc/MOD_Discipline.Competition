@@ -141,5 +141,21 @@ WHERE
 
             _up.Execute(sql);
         }
+
+        public static DataTable GetScoreSheet(DateTime startTime, DateTime endTime)
+        {
+            string sql = string.Format(@"
+SELECT
+    *
+FROM
+    $ischool.discipline_competition.score_sheet
+WHERE
+    create_time >= '{0}'::TIMESTAMP
+    AND create_time < '{1}'::TIMESTAMP
+    AND is_canceled is not true
+            ",startTime.ToString("yyyy/MM/dd"),endTime.AddDays(1).ToString("yyyy/MM/dd"));
+
+            return _qh.Select(sql);
+        } 
     }
 }

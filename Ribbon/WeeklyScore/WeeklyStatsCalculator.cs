@@ -23,7 +23,7 @@ namespace Ischool.discipline_competition
         private List<string> _listExistCheckItem = new List<string>();
         private Dictionary<string,DataRow> dicClassDataByID;
         private AccessHelper _access = new AccessHelper();
-        private Dictionary<string, List<UDT.ScoreSheet>> dicRecordsByClassID;   //各班級該週的評分紀錄
+        private Dictionary<string, List<DataRow>> dicRecordsByClassID;   //各班級該週的評分紀錄
 
         private List<UDT.WeeklyStats> _listInsertWeeklyStats; // 週統計
 
@@ -38,7 +38,7 @@ namespace Ischool.discipline_competition
             this._endDate = endDate;
             this.dicClassDataByID = new Dictionary<string, DataRow>();
 
-            this.dicRecordsByClassID = new Dictionary<string, List<UDT.ScoreSheet>>();
+            this.dicRecordsByClassID = new Dictionary<string, List<DataRow>>();
             this._listInsertWeeklyStats = new List<UDT.WeeklyStats>();
 
             //0. 取得全校班級(一、二、三年級)
@@ -82,18 +82,19 @@ WHERE
         /// </summary>
         private void getRawRecords()
         {
-            List<UDT.ScoreSheet> listScoreSheet = this._access.Select<UDT.ScoreSheet>(string.Format("create_time >= '{0}' AND create_time <= '{1}'", this._startDate,this._endDate));
-            foreach(UDT.ScoreSheet sheet in listScoreSheet)
+            //List<UDT.ScoreSheet> listScoreSheet = this._access.Select<UDT.ScoreSheet>(string.Format("create_time >= '{0}' AND create_time < '{1}' AND is_canceled IS NOT TRUE"
+            //    , this._startDate.ToString("yyyy/MM/dd"),this._endDate.AddDays(1).ToString("yyyy/MM/dd")));
+
+            DataTable dt = DAO.ScoreSheet.GetScoreSheet(this._startDate,this._endDate);
+
+            foreach(DataRow row in dt.Rows)
             {
-                if (!sheet.IsCancel)
+                string key = "" + row["ref_class_id"];
+                if (!dicRecordsByClassID.ContainsKey(key))
                 {
-                    string key = "" + sheet.RefClassID;
-                    if (!dicRecordsByClassID.ContainsKey(key))
-                    {
-                        dicRecordsByClassID.Add(key, new List<UDT.ScoreSheet>());
-                    }
-                    dicRecordsByClassID[key].Add(sheet);
+                    dicRecordsByClassID.Add(key, new List<DataRow>());
                 }
+                dicRecordsByClassID[key].Add(row);
             }
 
             // 取得所有評分項目編號
@@ -118,11 +119,11 @@ WHERE
                 if (dicRecordsByClassID.ContainsKey(classID))
                 {
                     //  1.2 計算總分
-                    foreach (UDT.ScoreSheet sheet in dicRecordsByClassID[classID]) 
+                    foreach (DataRow row in dicRecordsByClassID[classID]) 
                     {
-                        if (this._listExistCheckItem.Contains("" + sheet.RefCheckItemID))// 如果評分項目存在系統的話採計扣分
+                        if (this._listExistCheckItem.Contains("" + row["ref_check_item_id"]))// 如果評分項目存在系統的話採計扣分
                         {
-                            score += sheet.Score;
+                            score += int.Parse("" + row["score"] == "" ? "0" : "" + row["score"]);
                         }
                     }
                 }
