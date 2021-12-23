@@ -225,6 +225,7 @@
     <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
+    <Content Include="Resources\03.png" />
     <None Include="Resources\foreign_language_config_64.png" />
     <None Include="Resources\presentation_a_config_64.png" />
     <None Include="Resources\blacklist_zoom_128.png" />

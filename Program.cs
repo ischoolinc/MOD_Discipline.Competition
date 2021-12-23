@@ -92,9 +92,18 @@ namespace Ischool.discipline_competition
             #region 秩序競賽
 
             // 秩序競賽模組頁面
-            DisciplineCompetitionPanel panel = new DisciplineCompetitionPanel();
-            MotherForm.AddPanel(DisciplineCompetitionPanel.Instance);
-
+            //DisciplineCompetitionPanel panel = new DisciplineCompetitionPanel();
+            //MotherForm.AddPanel(DisciplineCompetitionPanel.Instance);
+            MotherForm.RibbonBarItems["秩序競賽", "使用說明"]["操作指南"].Image = Properties.Resources._03;
+            MotherForm.RibbonBarItems["秩序競賽", "使用說明"]["操作指南"].Size = RibbonBarButton.MenuButtonSize.Large;
+            #region 操作指南
+            {
+                MotherForm.RibbonBarItems["秩序競賽", "使用說明"]["操作指南"].Click += delegate
+                {
+                    System.Diagnostics.Process.Start("https://sites.google.com/ischool.com.tw/discipline-competition/%E9%A6%96%E9%A0%81");
+                };
+            }
+            #endregion
             MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"].Image = Properties.Resources.foreign_language_config_64;
             MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["人員設定"].Size = RibbonBarButton.MenuButtonSize.Large;
             MotherForm.RibbonBarItems["秩序競賽", "基本設定"]["評分設定"].Image = Properties.Resources.presentation_a_config_64;
